@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
+import fonts
 import sqlite3
 
 
@@ -18,7 +19,7 @@ class StudyGroupClass:
             text="Sesuaikan Detail Rombel",
             padx=10,
             compound=tk.LEFT,
-            font=("goudy old style", 20, "bold"),
+            font=fonts.get_font(self.root, 18),
             bg="#0e4979",
             fg="white",
         )
@@ -33,21 +34,21 @@ class StudyGroupClass:
         lbl_groupName = tk.Label(
             self.root,
             text="Nama Rombel",
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 13),
             bg="white",
         ).place(relx=0.01, y=60)
 
         lbl_class = tk.Label(
             self.root,
             text="Kelas",
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 13),
             bg="white",
         ).place(relx=0.01, y=100)
 
         lbl_guardianTeacher = tk.Label(
             self.root,
             text="Wali Kelas",
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 13),
             bg="white",
         ).place(relx=0.01, y=140)
 
@@ -56,7 +57,7 @@ class StudyGroupClass:
         self.txt_groupName = tk.Entry(
             self.root,
             textvariable=self.var_groupName,
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 13),
             bg="lightyellow",
         )
         self.txt_groupName.place(relx=0.125, y=60, relwidth=0.18)
@@ -64,7 +65,7 @@ class StudyGroupClass:
         self.txt_class = tk.Entry(
             self.root,
             textvariable=self.var_class,
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 13),
             bg="lightyellow",
         )
         self.txt_class.place(relx=0.125, y=100, relwidth=0.18)
@@ -72,7 +73,7 @@ class StudyGroupClass:
         self.txt_guardianTeacher = tk.Entry(
             self.root,
             textvariable=self.var_guardianTeacher,
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 13),
             bg="lightyellow",
         )
         self.txt_guardianTeacher.place(relx=0.125, y=140, relwidth=0.18)
@@ -81,7 +82,7 @@ class StudyGroupClass:
         self.btn_add = tk.Button(
             self.root,
             text="Simpan",
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 13),
             bg="#2196f3",
             fg="white",
             cursor="hand2",
@@ -91,7 +92,7 @@ class StudyGroupClass:
         self.btn_update = tk.Button(
             self.root,
             text="Perbarui",
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 13),
             bg="#4caf50",
             fg="white",
             cursor="hand2",
@@ -101,7 +102,7 @@ class StudyGroupClass:
         self.btn_delete = tk.Button(
             self.root,
             text="Hapus",
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 13),
             bg="#f44336",
             fg="white",
             cursor="hand2",
@@ -111,7 +112,7 @@ class StudyGroupClass:
         self.btn_clear = tk.Button(
             self.root,
             text="Bersihkan",
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 13),
             bg="#607d8b",
             fg="white",
             cursor="hand2",
@@ -123,26 +124,26 @@ class StudyGroupClass:
         lbl_search_groupName = tk.Label(
             self.root,
             text="Cari Rombel",
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 13),
             bg="white",
         ).place(relx=0.6, y=60)
 
         txt_search_groupName = tk.Entry(
             self.root,
             textvariable=self.var_search,
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 13),
             bg="lightyellow",
-        ).place(relx=0.74, y=60, relwidth=0.18)
+        ).place(relx=0.70, y=60, relwidth=0.18)
 
         btn_search = tk.Button(
             self.root,
             text="Cari",
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 13),
             bg="#0f7c8f",
             fg="white",
             cursor="hand2",
             command=self.search,
-        ).place(relx=0.92, y=60, relwidth=0.07, height=28)
+        ).place(relx=0.89, y=60, relwidth=0.1, height=26)
 
         # ==== Content ====
         self.C_Frame = tk.Frame(self.root, bd=2, relief=tk.RIDGE)

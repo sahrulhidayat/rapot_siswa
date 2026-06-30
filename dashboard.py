@@ -1,5 +1,6 @@
 import tkinter as tk
 from PIL import Image, ImageTk
+import fonts
 from study_group import StudyGroupClass
 from study import StudyClass
 from student import StudentClass
@@ -9,7 +10,7 @@ from result import ResultClass
 class StudentReport:
     def __init__(self, root):
         self.root = root
-        self.root.title("Sistem Rapot Siswa")
+        self.root.title("")
         self.root.geometry("1366x768+0+0")
         self.root.config(bg="white")
 
@@ -33,7 +34,7 @@ class StudentReport:
             padx=10,
             compound=tk.LEFT,
             image=self.logo_dash,
-            font=("goudy old style", 20, "bold"),
+            font=fonts.get_font(self.root, 18),
             bg="#0e4979",
             fg="white",
         )
@@ -41,14 +42,14 @@ class StudentReport:
 
         # ==== Menu ====
         M_Frame = tk.LabelFrame(
-            self.root, text="Menu", font=("times new roman", 15), bg="white"
+            self.root, text="Menu", font=fonts.get_font(self.root, 13), bg="white"
         )
         M_Frame.place(x=10, y=70, width=1346, height=80)
 
         btn_groupStudy = tk.Button(
             M_Frame,
             text="Rombel",
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 13),
             bg="#0f7c8f",
             fg="white",
             cursor="hand2",
@@ -59,7 +60,7 @@ class StudentReport:
         btn_study = tk.Button(
             M_Frame,
             text="Pelajaran",
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 13),
             bg="#0f7c8f",
             fg="white",
             cursor="hand2",
@@ -70,7 +71,7 @@ class StudentReport:
         btn_student = tk.Button(
             M_Frame,
             text="Siswa",
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 13),
             bg="#0f7c8f",
             fg="white",
             cursor="hand2",
@@ -81,7 +82,7 @@ class StudentReport:
         btn_teacher = tk.Button(
             M_Frame,
             text="Guru",
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 13),
             bg="#0f7c8f",
             fg="white",
             cursor="hand2",
@@ -91,7 +92,7 @@ class StudentReport:
         btn_result = tk.Button(
             M_Frame,
             text="Hasil",
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 13),
             bg="#0f7c8f",
             fg="white",
             cursor="hand2",
@@ -102,7 +103,7 @@ class StudentReport:
         btn_logout = tk.Button(
             M_Frame,
             text="Logout",
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 13),
             bg="#0f7c8f",
             fg="white",
             cursor="hand2",
@@ -113,7 +114,7 @@ class StudentReport:
         footer = tk.Label(
             self.root,
             text="Sistem Rapot Siswa | v0.01 2026",
-            font=("goudy old style", 12),
+            font=fonts.get_font(self.root, 11),
             bg="#262626",
             fg="white",
         )
@@ -132,7 +133,7 @@ class StudentReport:
         self.lbl_study = tk.Label(
             self.root,
             text="Total Pelajaran\n[ 0 ]",
-            font=("goudy old style", 20, "bold"),
+            font=fonts.get_font(self.root, 18),
             bd=5,
             relief=tk.RIDGE,
             bg="#da590f",
@@ -142,7 +143,7 @@ class StudentReport:
         self.lbl_student = tk.Label(
             self.root,
             text="Total Pelajaran\n[ 0 ]",
-            font=("goudy old style", 20, "bold"),
+            font=fonts.get_font(self.root, 18),
             bd=5,
             relief=tk.RIDGE,
             bg="#05b63a",
@@ -152,7 +153,7 @@ class StudentReport:
         self.lbl_result = tk.Label(
             self.root,
             text="Total Pelajaran\n[ 0 ]",
-            font=("goudy old style", 20, "bold"),
+            font=fonts.get_font(self.root, 18),
             bd=5,
             relief=tk.RIDGE,
             bg="#0584b6",

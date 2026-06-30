@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 import sqlite3
+import fonts
 
 
 class StudentClass:
@@ -18,7 +19,7 @@ class StudentClass:
             text="Sesuaikan Detail Siswa",
             padx=10,
             compound=tk.LEFT,
-            font=("goudy old style", 20, "bold"),
+            font=fonts.get_font(self.root, 18),
             bg="#0e4979",
             fg="white",
         )
@@ -41,42 +42,42 @@ class StudentClass:
         lbl_nisn = tk.Label(
             self.root,
             text="NISN",
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 11),
             bg="white",
         ).place(relx=0.01, y=60)
 
         lbl_name = tk.Label(
             self.root,
             text="Nama",
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 11),
             bg="white",
         ).place(relx=0.01, y=100)
 
         lbl_gender = tk.Label(
             self.root,
             text="Jenis Kelamin",
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 11),
             bg="white",
         ).place(relx=0.01, y=140)
 
         lbl_religion = tk.Label(
             self.root,
             text="Agama",
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 11),
             bg="white",
         ).place(relx=0.01, y=180)
 
         lbl_contact = tk.Label(
             self.root,
             text="No. HP",
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 11),
             bg="white",
         ).place(relx=0.01, y=220)
 
         lbl_address = tk.Label(
             self.root,
             text="Alamat",
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 11),
             bg="white",
         ).place(relx=0.01, y=260)
 
@@ -85,7 +86,7 @@ class StudentClass:
         self.txt_nisn = tk.Entry(
             self.root,
             textvariable=self.var_nisn,
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 11),
             bg="lightyellow",
         )
         self.txt_nisn.place(relx=0.125, y=60, relwidth=0.18)
@@ -93,7 +94,7 @@ class StudentClass:
         txt_name = tk.Entry(
             self.root,
             textvariable=self.var_name,
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 11),
             bg="lightyellow",
         ).place(relx=0.125, y=100, relwidth=0.18)
 
@@ -101,24 +102,24 @@ class StudentClass:
             self.root,
             textvariable=self.var_gender,
             values=("Pilih", "Laki-laki", "Perempuan"),
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 11),
             state="readonly",
             justify=tk.CENTER,
         )
-        self.txt_gender.place(relx=0.125, y=140, relwidth=0.18)
+        self.txt_gender.place(relx=0.125, y=140, relwidth=0.18, height=24)
         self.txt_gender.current(0)
 
         txt_religion = tk.Entry(
             self.root,
             textvariable=self.var_religion,
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 11),
             bg="lightyellow",
         ).place(relx=0.125, y=180, relwidth=0.18)
 
         txt_contact = tk.Entry(
             self.root,
             textvariable=self.var_contact,
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 11),
             bg="lightyellow",
         ).place(relx=0.125, y=220, relwidth=0.18)
 
@@ -126,35 +127,35 @@ class StudentClass:
         lbl_studyGroup = tk.Label(
             self.root,
             text="Rombel",
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 11),
             bg="white",
         ).place(relx=0.31, y=60)
 
         lbl_birthPlace = tk.Label(
             self.root,
             text="Tempat Lahir",
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 11),
             bg="white",
         ).place(relx=0.31, y=100)
 
         lbl_birthDate = tk.Label(
             self.root,
             text="Tanggal Lahir",
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 11),
             bg="white",
         ).place(relx=0.31, y=140)
 
         lbl_father = tk.Label(
             self.root,
             text="Ayah",
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 11),
             bg="white",
         ).place(relx=0.31, y=180)
 
         lbl_mother = tk.Label(
             self.root,
             text="Ibu",
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 11),
             bg="white",
         ).place(relx=0.31, y=220)
 
@@ -167,55 +168,55 @@ class StudentClass:
             self.root,
             textvariable=self.var_studyGroup,
             values=self.studyGroup_list,
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 11),
             state="readonly",
             justify=tk.CENTER,
         )
-        self.txt_studyGroup.place(relx=0.413, y=60, relwidth=0.18)
+        self.txt_studyGroup.place(relx=0.411, y=60, relwidth=0.18, height=24)
         self.txt_studyGroup.set("Pilih")
 
         txt_birthPlace = tk.Entry(
             self.root,
             textvariable=self.var_birthPlace,
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 11),
             bg="lightyellow",
-        ).place(relx=0.413, y=100, relwidth=0.18)
+        ).place(relx=0.411, y=100, relwidth=0.18)
 
         txt_birthDate = tk.Entry(
             self.root,
             textvariable=self.var_birthDate,
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 11),
             bg="lightyellow",
-        ).place(relx=0.413, y=140, relwidth=0.18)
+        ).place(relx=0.411, y=140, relwidth=0.18)
 
         txt_father = tk.Entry(
             self.root,
             textvariable=self.var_father,
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 11),
             bg="lightyellow",
-        ).place(relx=0.413, y=180, relwidth=0.18)
+        ).place(relx=0.411, y=180, relwidth=0.18)
 
         txt_mother = tk.Entry(
             self.root,
             textvariable=self.var_mother,
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 11),
             bg="lightyellow",
-        ).place(relx=0.413, y=220, relwidth=0.18)
+        ).place(relx=0.411, y=220, relwidth=0.18)
 
         # --------- Text Address ---------
 
         self.txt_address = tk.Text(
             self.root,
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 11),
             bg="lightyellow",
         )
-        self.txt_address.place(relx=0.125, y=260, relwidth=0.468, relheight=0.208)
+        self.txt_address.place(relx=0.125, y=260, relwidth=0.465, relheight=0.208)
 
         # ==== Buttons ====
         self.btn_add = tk.Button(
             self.root,
             text="Simpan",
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 11),
             bg="#2196f3",
             fg="white",
             cursor="hand2",
@@ -225,7 +226,7 @@ class StudentClass:
         self.btn_update = tk.Button(
             self.root,
             text="Perbarui",
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 11),
             bg="#4caf50",
             fg="white",
             cursor="hand2",
@@ -235,7 +236,7 @@ class StudentClass:
         self.btn_delete = tk.Button(
             self.root,
             text="Hapus",
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 11),
             bg="#f44336",
             fg="white",
             cursor="hand2",
@@ -245,7 +246,7 @@ class StudentClass:
         self.btn_clear = tk.Button(
             self.root,
             text="Bersihkan",
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 11),
             bg="#607d8b",
             fg="white",
             cursor="hand2",
@@ -257,26 +258,26 @@ class StudentClass:
         lbl_search_studyName = tk.Label(
             self.root,
             text="Cari Siswa",
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 11),
             bg="white",
         ).place(relx=0.60, y=60)
 
         txt_search_studyName = tk.Entry(
             self.root,
             textvariable=self.var_search,
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 11),
             bg="lightyellow",
         ).place(relx=0.725, y=60, relwidth=0.18)
 
         btn_search = tk.Button(
             self.root,
             text="Cari",
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 11),
             bg="#0f7c8f",
             fg="white",
             cursor="hand2",
             command=self.search,
-        ).place(relx=0.92, y=60, relwidth=0.07, height=28)
+        ).place(relx=0.92, y=60, relwidth=0.07, height=24)
 
         # ==== Content ====
         self.C_Frame = tk.Frame(self.root, bd=2, relief=tk.RIDGE)

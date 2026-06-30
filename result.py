@@ -1,6 +1,7 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 from tkinter import ttk, messagebox
+import fonts
 import sqlite3
 
 
@@ -19,7 +20,7 @@ class ResultClass:
             text="Tambahkan Hasil Belajar Siswa",
             padx=10,
             compound=tk.LEFT,
-            font=("goudy old style", 20, "bold"),
+            font=fonts.get_font(self.root, 16),
             bg="orange",
             fg="#262626",
         )
@@ -37,28 +38,28 @@ class ResultClass:
         lbl_select = tk.Label(
             self.root,
             text="Pilih Siswa",
-            font=("goudy old style", 20, "bold"),
+            font=fonts.get_font(self.root, 14),
             bg="white",
         ).place(relx=0.01, y=100)
 
         lbl_name = tk.Label(
             self.root,
             text="Nama",
-            font=("goudy old style", 20, "bold"),
+            font=fonts.get_font(self.root, 14),
             bg="white",
         ).place(relx=0.01, y=160)
 
         lbl_study = tk.Label(
             self.root,
             text="Pelajaran",
-            font=("goudy old style", 20, "bold"),
+            font=fonts.get_font(self.root, 14),
             bg="white",
         ).place(relx=0.01, y=220)
 
         lbl_mark = tk.Label(
             self.root,
             text="Nilai",
-            font=("goudy old style", 20, "bold"),
+            font=fonts.get_font(self.root, 14),
             bg="white",
         ).place(relx=0.01, y=280)
 
@@ -66,26 +67,26 @@ class ResultClass:
             self.root,
             textvariable=self.var_nisn,
             values=self.nisn_list,
-            font=("goudy old style", 15, "bold"),
+            font=fonts.get_font(self.root, 11),
             state="readonly",
             justify=tk.CENTER,
         )
-        self.txt_student.place(relx=0.150, y=100, relwidth=0.18)
+        self.txt_student.place(relx=0.150, y=100, relwidth=0.20, height=28)
         self.txt_student.set("Pilih")
 
         btn_search = tk.Button(
             self.root,
             text="Cari",
-            font=("goudy old style", 20, "bold"),
+            font=fonts.get_font(self.root, 14),
             bg="#0f7c8f",
             fg="white",
             cursor="hand2",
-        ).place(relx=0.343, y=100, relwidth=0.137, height=28)
+        ).place(relx=0.363, y=100, relwidth=0.117, height=28)
 
         txt_name = tk.Entry(
             self.root,
             textvariable=self.var_name,
-            font=("goudy old style", 20, "bold"),
+            font=fonts.get_font(self.root, 14),
             bg="lightyellow",
             state="readonly",
         ).place(relx=0.15, y=160, relwidth=0.33)
@@ -93,14 +94,14 @@ class ResultClass:
         txt_study = tk.Entry(
             self.root,
             textvariable=self.var_study,
-            font=("goudy old style", 20, "bold"),
+            font=fonts.get_font(self.root, 14),
             bg="lightyellow",
         ).place(relx=0.15, y=220, relwidth=0.33)
 
         txt_mark = tk.Entry(
             self.root,
             textvariable=self.var_mark,
-            font=("goudy old style", 20, "bold"),
+            font=fonts.get_font(self.root, 14),
             bg="lightyellow",
         ).place(relx=0.15, y=280, relwidth=0.33)
 
@@ -108,28 +109,28 @@ class ResultClass:
         btn_add = tk.Button(
             self.root,
             text="Kirim",
-            font=("Times new roman", 15, "bold"),
+            font=fonts.get_font(self.root, 11),
             bg="lightgreen",
             activebackground="lightgreen",
             cursor="hand2",
         ).place(
             relx=0.15,
             rely=0.87,
-            relwidth=0.137,
+            relwidth=0.117,
             height=35,
         )
 
         btn_clear = tk.Button(
             self.root,
             text="Bersihkan",
-            font=("Times new roman", 15, "bold"),
+            font=fonts.get_font(self.root, 11),
             bg="lightgray",
             activebackground="lightgray",
             cursor="hand2",
         ).place(
             relx=0.30,
             rely=0.87,
-            relwidth=0.137,
+            relwidth=0.117,
             height=35,
         )
 
