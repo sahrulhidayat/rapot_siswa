@@ -134,11 +134,13 @@ class ResultClass:
         )
 
         # ===== Image ======
-        self.bg_img = Image.open("images/bg.jpg")
+        self.bg_img = Image.open("images/bg2.png").convert("RGBA")
         self.bg_img = self.bg_img.resize((500, 300), Image.Resampling.LANCZOS)
         self.bg_img = ImageTk.PhotoImage(self.bg_img)
 
-        self.lbl_bg = tk.Label(self.root, image=self.bg_img).place(x=630, y=100)
+        self.lbl_bg = tk.Label(self.root, image=self.bg_img, bg="white").place(
+            relx=0.50, rely=0.15
+        )
 
 
 if __name__ == "__main__":
