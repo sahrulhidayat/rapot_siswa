@@ -29,11 +29,16 @@ class ResultClass:
         # ==== Widgets ======
         # ========== Variables ============
         self.var_nisn = tk.StringVar()
-        self.var_name = tk.StringVar()
-        self.var_study = tk.StringVar()
         self.var_mark = tk.StringVar()
 
         self.nisn_list = []
+        self.student_list = []
+        self.study_list = []
+        self.fetch_students()
+        self.fetch_study()
+
+        self.style = ttk.Style(self.root)
+        self.style.configure("Custom.TCombobox", padding=(8, 4, 8, 4))
 
         lbl_select = tk.Label(
             self.root,
@@ -44,7 +49,7 @@ class ResultClass:
 
         lbl_name = tk.Label(
             self.root,
-            text="Nama",
+            text="NISN",
             font=fonts.get_font(self.root, 14),
             bg="white",
         ).place(relx=0.01, y=160)
@@ -65,38 +70,32 @@ class ResultClass:
 
         self.txt_student = ttk.Combobox(
             self.root,
-            textvariable=self.var_nisn,
-            values=self.nisn_list,
-            font=fonts.get_font(self.root, 11),
-            state="readonly",
-            justify=tk.CENTER,
-        )
-        self.txt_student.place(relx=0.150, y=100, relwidth=0.20, height=28)
-        self.txt_student.set("Pilih")
-
-        btn_search = tk.Button(
-            self.root,
-            text="Cari",
+            values=self.student_list,
             font=fonts.get_font(self.root, 14),
-            bg="#0f7c8f",
-            fg="white",
-            cursor="hand2",
-        ).place(relx=0.363, y=100, relwidth=0.117, height=28)
+            style="Custom.TCombobox",
+            state="readonly",
+        )
+        self.txt_student.place(relx=0.150, y=100, relwidth=0.33, height=28)
+        self.txt_student.set("Pilih")
+        self.txt_student.bind("<<ComboboxSelected>>", self.on_student_selected)
 
-        txt_name = tk.Entry(
+        txt_nisn = tk.Entry(
             self.root,
-            textvariable=self.var_name,
+            textvariable=self.var_nisn,
             font=fonts.get_font(self.root, 14),
             bg="lightyellow",
             state="readonly",
         ).place(relx=0.15, y=160, relwidth=0.33)
 
-        txt_study = tk.Entry(
+        self.txt_study = ttk.Combobox(
             self.root,
-            textvariable=self.var_study,
+            values=self.study_list,
             font=fonts.get_font(self.root, 14),
-            bg="lightyellow",
-        ).place(relx=0.15, y=220, relwidth=0.33)
+            style="Custom.TCombobox",
+            state="readonly",
+        )
+        self.txt_study.place(relx=0.150, y=210, relwidth=0.33, height=28)
+        self.txt_study.set("Pilih")
 
         txt_mark = tk.Entry(
             self.root,
@@ -106,7 +105,7 @@ class ResultClass:
         ).place(relx=0.15, y=280, relwidth=0.33)
 
         # ====== Button ======
-        btn_add = tk.Button(
+        btn_submit = tk.Button(
             self.root,
             text="Kirim",
             font=fonts.get_font(self.root, 11),
@@ -128,7 +127,7 @@ class ResultClass:
             activebackground="lightgray",
             cursor="hand2",
         ).place(
-            relx=0.30,
+            relx=0.28,
             rely=0.87,
             relwidth=0.117,
             height=35,
@@ -142,6 +141,48 @@ class ResultClass:
         self.lbl_bg = tk.Label(self.root, image=self.bg_img, bg="white").place(
             relx=0.50, rely=0.15
         )
+
+    # ==============================================
+
+    def fetch_students(self):
+        con = sqlite3.connect(database="rapot_siswa.db")
+        cur = con.cursor()
+        try:
+            cur.execute("""SELECT
+                *
+                FROM
+                student""")
+            rows = cur.fetchall()
+            if len(rows) > 0:
+                for row in rows:
+                    self.nisn_list.append(row[0])
+                    self.student_list.append(row[1])
+
+        except Exception as ex:
+            messagebox.showerror("Error", f"error dikarenakan {str(ex)}")
+
+    def fetch_study(self):
+        con = sqlite3.connect(database="rapot_siswa.db")
+        cur = con.cursor()
+        try:
+            cur.execute("""SELECT
+                *
+                FROM
+                study""")
+            rows = cur.fetchall()
+            if len(rows) > 0:
+                for row in rows:
+                    self.study_list.append(row[1])
+
+        except Exception as ex:
+            messagebox.showerror("Error", f"error dikarenakan {str(ex)}")
+
+    def on_student_selected(self, event=None):
+        selected_index = self.txt_student.current()
+        if selected_index < 0:
+            return
+
+        self.var_nisn.set(self.nisn_list[selected_index])
 
 
 if __name__ == "__main__":
