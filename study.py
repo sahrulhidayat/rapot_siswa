@@ -265,11 +265,11 @@ class StudyClass:
 
     def get_data(self, ev):
         self.txt_studyName.config(state="readonly")
-        r = self.StudyTable.focus()
-        if not r:
+        selected = self.StudyTable.selection()
+        if not selected:
             return
-        content = self.StudyTable.item(r)
-        row = content.get("values")
+        item_id = selected[0]
+        row = self.StudyTable.item(item_id, "values")
         if not row:
             return
         self.var_study.set(row[1])

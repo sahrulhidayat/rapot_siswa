@@ -107,12 +107,13 @@ class TeacherClass:
             bg="lightyellow",
         ).place(relx=0.125, y=180, relwidth=0.18)
 
-        txt_contact = tk.Entry(
+        self.txt_contact = tk.Entry(
             self.root,
             textvariable=self.var_contact,
             font=fonts.get_font(self.root, 11),
             bg="lightyellow",
-        ).place(relx=0.125, y=220, relwidth=0.18)
+        )
+        self.txt_contact.place(relx=0.125, y=220, relwidth=0.18)
 
         # ==== Buttons ====
         self.btn_add = tk.Button(
@@ -285,9 +286,11 @@ class TeacherClass:
 
     def get_data(self, ev):
         self.txt_nip.config(state="readonly")
-        r = self.TeacherTable.focus()
-        content = self.TeacherTable.item(r)
-        row = content["values"]
+        selected = self.TeacherTable.selection()
+        if not selected:
+            return
+        item_id = selected[0]
+        row = self.TeacherTable.item(item_id, "values")
         if not row:
             return
         self.var_teacherId.set(row[0])
@@ -301,8 +304,14 @@ class TeacherClass:
         con = sqlite3.connect(database="rapot_siswa.db")
         cur = con.cursor()
         try:
-            if self.var_name.get() == "":
-                messagebox.showerror("Error", "Nama harus diisi", parent=self.root)
+            name = self.var_name.get().strip()
+            nip = self.var_nip.get().strip()
+            if name == "" or nip == "":
+                messagebox.showerror(
+                    "Error",
+                    "Nama dan NIP harus diisi",
+                    parent=self.root,
+                )
             else:
                 cur.execute(
                     """SELECT
@@ -310,13 +319,26 @@ class TeacherClass:
                         FROM
                         teacher
                         WHERE
-                        name = ?""",
-                    (self.var_name.get(),),
+                        LOWER(name) = LOWER(?) OR nip = ?""",
+                    (name, nip),
                 )
                 row = cur.fetchone()
                 if row is not None:
-                    messagebox.showerror("Error", "Guru sudah ada", parent=self.root)
+                    if row[2] == nip:
+                        messagebox.showerror(
+                            "Error",
+                            "NIP guru sudah ada",
+                            parent=self.root,
+                        )
+                    else:
+                        messagebox.showerror(
+                            "Error",
+                            "Nama guru sudah ada",
+                            parent=self.root,
+                        )
                 else:
+                    nip_str = str(nip)
+                    contact_str = str(self.var_contact.get())
                     cur.execute(
                         """INSERT INTO
                             teacher (             
@@ -329,11 +351,11 @@ class TeacherClass:
                             VALUES
                             (?, ?, ?, ?, ?)""",
                         (
-                            self.var_name.get(),
-                            self.var_nip.get(),
+                            name,
+                            nip_str,
                             self.var_gender.get(),
                             self.var_religion.get(),
-                            self.var_contact.get(),
+                            contact_str,
                         ),
                     )
                     con.commit()
@@ -348,8 +370,14 @@ class TeacherClass:
         con = sqlite3.connect(database="rapot_siswa.db")
         cur = con.cursor()
         try:
-            if self.var_name.get() == "":
-                messagebox.showerror("Error", "Nama harus diisi", parent=self.root)
+            name = self.var_name.get().strip()
+            nip = self.var_nip.get().strip()
+            if name == "" or nip == "":
+                messagebox.showerror(
+                    "Error",
+                    "Nama dan NIP harus diisi",
+                    parent=self.root,
+                )
             else:
                 cur.execute(
                     """SELECT
@@ -369,29 +397,57 @@ class TeacherClass:
                     )
                 else:
                     cur.execute(
-                        """UPDATE teacher
-                            SET
-                            name = ?,
-                            nip = ?,
-                            gender = ?,
-                            religion = ?,
-                            contact = ?
+                        """SELECT
+                            *
+                            FROM
+                            teacher
                             WHERE
-                            teacher_id = ?""",
-                        (
-                            self.var_name.get(),
-                            self.var_nip.get(),
-                            self.var_gender.get(),
-                            self.var_religion.get(),
-                            self.var_contact.get(),
-                            self.var_teacherId.get(),
-                        ),
+                            (LOWER(name) = LOWER(?) OR nip = ?)
+                            AND teacher_id != ?""",
+                        (name, nip, self.var_teacherId.get()),
                     )
-                    con.commit()
-                    messagebox.showinfo(
-                        "Berhasil", "Guru berhasil diperbarui", parent=self.root
-                    )
-                    self.show()
+                    duplicate = cur.fetchone()
+                    if duplicate is not None:
+                        if duplicate[2] == nip:
+                            messagebox.showerror(
+                                "Error",
+                                "NIP guru sudah ada",
+                                parent=self.root,
+                            )
+                        else:
+                            messagebox.showerror(
+                                "Error",
+                                "Nama guru sudah ada",
+                                parent=self.root,
+                            )
+                    else:
+                        # ensure nip and contact are stored as strings to preserve leading zeros
+                        nip_str = str(nip)
+                        contact_str = str(self.var_contact.get())
+                        cur.execute(
+                            """UPDATE teacher
+                                SET
+                                name = ?,
+                                nip = ?,
+                                gender = ?,
+                                religion = ?,
+                                contact = ?
+                                WHERE
+                                teacher_id = ?""",
+                            (
+                                name,
+                                nip_str,
+                                self.var_gender.get(),
+                                self.var_religion.get(),
+                                contact_str,
+                                self.var_teacherId.get(),
+                            ),
+                        )
+                        con.commit()
+                        messagebox.showinfo(
+                            "Berhasil", "Guru berhasil diperbarui", parent=self.root
+                        )
+                        self.show()
         except Exception as ex:
             messagebox.showerror("Error", f"error dikarenakan {str(ex)}")
 
