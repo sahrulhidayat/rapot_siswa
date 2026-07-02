@@ -14,18 +14,6 @@ class ReportClass:
         self.root.config(bg="white")
         self.root.focus_force()
 
-        # ===== Title (tetap, tidak ikut discroll) =====
-        title = tk.Label(
-            self.root,
-            text="Rapot Hasil Belajar Siswa",
-            padx=10,
-            compound=tk.LEFT,
-            font=fonts.get_font(self.root, 16),
-            bg="orange",
-            fg="#262626",
-        )
-        title.pack(side="top", fill="x", padx=12, pady=15, ipady=6)
-
         # ===== Result Labels =======
         self.var_studyGroup = tk.StringVar()
         self.var_nisn = tk.StringVar()
@@ -43,7 +31,7 @@ class ReportClass:
         # ===== Fetch Data =====
         self.fetch_studyGroup()
 
-        # ============ Area yang BISA DISCROLL (Rombel/Nama/NISN + tabel) ==========
+        # ============ Canvas ==========
 
         scroll_wrap = tk.Frame(self.root, bg="white")
         scroll_wrap.pack(side="top", fill="both", expand=True)
@@ -57,13 +45,6 @@ class ReportClass:
         self.canvas.pack(side="left", fill="both", expand=True)
         self.scrollbar.pack(side="right", fill="y")
 
-        # Frame di dalam canvas: semua konten (form + header tabel + baris data)
-        # ditaruh di sini, sehingga semuanya ikut discroll bersama.
-        # PENTING: karena semua isinya pakai .place() (bukan pack/grid), frame
-        # ini TIDAK otomatis membesar mengikuti anaknya. Ukurannya harus
-        # di-set manual lewat .config(width=..., height=...), makanya ada
-        # self._update_content_height() yang dipanggil setiap kali baris
-        # ditambah/dihapus.
         self.content = tk.Frame(self.canvas, bg="white")
         self.content.pack_propagate(False)
         self.content_window = self.canvas.create_window(
@@ -78,32 +59,46 @@ class ReportClass:
             ),
         )
 
-        # Scroll pakai mouse wheel
         self.canvas.bind("<Enter>", self._bind_mousewheel)
         self.canvas.bind("<Leave>", self._unbind_mousewheel)
 
-        # ----- Form: Rombel / Nama / NISN (di dalam self.content, ikut discroll) -----
+        # ----- Title -----
+
+        self.title_height = 65
+
+        title = tk.Label(
+            self.content,
+            text="Rapot Hasil Belajar Siswa",
+            padx=10,
+            compound=tk.LEFT,
+            font=fonts.get_font(self.root, 16),
+            bg="orange",
+            fg="#262626",
+        )
+        title.place(relx=0.01, y=15, relwidth=0.98, height=35)
+
+        # ----- Form: Rombel / Nama / NISN -----
 
         lbl_studyGroup = tk.Label(
             self.content,
             text="Rombel",
             font=fonts.get_font(self.root, 11, "bold"),
             bg="white",
-        ).place(relx=0.125, y=20)
+        ).place(relx=0.125, y=self.title_height + 20)
 
         lbl_student = tk.Label(
             self.content,
             text="Nama",
             font=fonts.get_font(self.root, 11, "bold"),
             bg="white",
-        ).place(relx=0.125, y=54)
+        ).place(relx=0.125, y=self.title_height + 54)
 
         lbl_nisn = tk.Label(
             self.content,
             text="NISN",
             font=fonts.get_font(self.root, 11, "bold"),
             bg="white",
-        ).place(relx=0.125, y=88)
+        ).place(relx=0.125, y=self.title_height + 88)
 
         self.txt_studyGroup = ttk.Combobox(
             self.content,
@@ -113,7 +108,7 @@ class ReportClass:
             style="Custom.TCombobox",
             state="readonly",
         )
-        self.txt_studyGroup.place(relx=0.200, y=18, relwidth=0.20)
+        self.txt_studyGroup.place(relx=0.200, y=self.title_height + 18, relwidth=0.20)
         self.txt_studyGroup.set("Pilih")
         self.txt_studyGroup.bind(
             "<<ComboboxSelected>>", lambda event: self.fetch_student()
@@ -127,7 +122,7 @@ class ReportClass:
             style="Custom.TCombobox",
             state="readonly",
         )
-        self.txt_student.place(relx=0.200, y=52, relwidth=0.20)
+        self.txt_student.place(relx=0.200, y=self.title_height + 52, relwidth=0.20)
         self.txt_student.set("Pilih")
         self.txt_student.bind("<<ComboboxSelected>>", self.on_student_selected)
 
@@ -136,11 +131,11 @@ class ReportClass:
             textvariable=self.var_nisn,
             font=fonts.get_font(self.root, 11),
             state="readonly",
-        ).place(relx=0.200, y=86, relwidth=0.20)
+        ).place(relx=0.200, y=self.title_height + 86, relwidth=0.20)
 
-        # ----- Header tabel (di dalam self.content, ikut discroll) -----
+        # ----- Header tabel -----
 
-        header_y = 140
+        header_y = self.title_height + 140
         self.header_height = 40
 
         lbl_number = tk.Label(
@@ -188,15 +183,13 @@ class ReportClass:
             relief=tk.GROOVE,
         ).place(relx=0.75, y=header_y, relwidth=0.125, height=self.header_height)
 
-        # ----- Area baris data tabel (di dalam self.content, ikut discroll) -----
+        # ----- Area baris data tabel  -----
 
         self.result_area_start = header_y + self.header_height
         self.row_height = 40
 
         self.result_rows = []
 
-        # Set tinggi awal content (form + header, belum ada baris data)
-        # lalu paksa canvas menghitung ulang scrollregion.
         self._update_content_height(0)
 
     def _update_content_height(self, row_count):
@@ -290,8 +283,6 @@ class ReportClass:
         )
         explain.place(relx=0.75, y=y, relwidth=0.125, height=self.row_height)
 
-        # Perbarui tinggi content agar scrollregion menghitung total tinggi
-        # konten (form + header + seluruh baris data) dengan benar.
         self._update_content_height(index + 1)
 
         self.result_rows.append((number, study, criteria, mark_label, explain))
