@@ -229,12 +229,14 @@ class TeacherClass:
     # ========================================================
     def clear(self):
         self.show()
+        self.var_teacherId.set("")
         self.var_name.set("")
         self.var_nip.set("")
         self.var_gender.set("")
         self.var_religion.set("")
         self.var_contact.set("")
         self.txt_gender.set("Pilih")
+        self.txt_nip.config(state=tk.NORMAL)
 
     def delete(self):
         con = sqlite3.connect(database="rapot_siswa.db")
@@ -267,7 +269,7 @@ class TeacherClass:
                     )
                     if op is True:
                         cur.execute(
-                            """DELETE FROM student
+                            """DELETE FROM teacher
                                 WHERE
                                 teacher_id = ?""",
                             (self.var_teacherId.get(),),
@@ -317,8 +319,7 @@ class TeacherClass:
                 else:
                     cur.execute(
                         """INSERT INTO
-                            teacher (
-                            
+                            teacher (             
                             name,
                             nip,
                             gender,

@@ -50,6 +50,17 @@ class StudentReport:
         )
         M_Frame.place(x=10, y=70, width=1346, height=80)
 
+        btn_teacher = tk.Button(
+            M_Frame,
+            text="Guru",
+            font=fonts.get_font(self.root, 13),
+            bg="#0f7c8f",
+            fg="white",
+            cursor="hand2",
+            command=self.add_teacher,
+        )
+        btn_teacher.place(x=20, y=5, width=200, height=40)
+
         btn_groupStudy = tk.Button(
             M_Frame,
             text="Rombel",
@@ -59,18 +70,7 @@ class StudentReport:
             cursor="hand2",
             command=self.add_studyGroup,
         )
-        btn_groupStudy.place(x=20, y=5, width=200, height=40)
-
-        btn_study = tk.Button(
-            M_Frame,
-            text="Pelajaran",
-            font=fonts.get_font(self.root, 13),
-            bg="#0f7c8f",
-            fg="white",
-            cursor="hand2",
-            command=self.add_study,
-        )
-        btn_study.place(x=240, y=5, width=200, height=40)
+        btn_groupStudy.place(x=240, y=5, width=200, height=40)
 
         btn_student = tk.Button(
             M_Frame,
@@ -83,16 +83,16 @@ class StudentReport:
         )
         btn_student.place(x=460, y=5, width=200, height=40)
 
-        btn_teacher = tk.Button(
+        btn_study = tk.Button(
             M_Frame,
-            text="Guru",
+            text="Pelajaran",
             font=fonts.get_font(self.root, 13),
             bg="#0f7c8f",
             fg="white",
             cursor="hand2",
-            command=self.add_teacher,
+            command=self.add_study,
         )
-        btn_teacher.place(x=680, y=5, width=200, height=40)
+        btn_study.place(x=680, y=5, width=200, height=40)
 
         btn_result = tk.Button(
             M_Frame,
