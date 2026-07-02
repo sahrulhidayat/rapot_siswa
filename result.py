@@ -28,8 +28,10 @@ class ResultClass:
 
         # ==== Widgets ======
         # ========== Variables ============
+        self.var_student = tk.StringVar()
         self.var_nisn = tk.StringVar()
-        self.var_criteria = tk.StringVar()
+        self.var_study = tk.StringVar()
+        self.var_kkm = tk.StringVar()
         self.var_mark = tk.StringVar()
 
         self.nisn_list = []
@@ -78,6 +80,7 @@ class ResultClass:
 
         self.txt_student = ttk.Combobox(
             self.root,
+            textvariable=self.var_student,
             values=self.student_list,
             font=fonts.get_font(self.root, 14),
             style="Custom.TCombobox",
@@ -97,6 +100,7 @@ class ResultClass:
 
         self.txt_study = ttk.Combobox(
             self.root,
+            textvariable=self.var_study,
             values=self.study_list,
             font=fonts.get_font(self.root, 14),
             style="Custom.TCombobox",
@@ -105,19 +109,29 @@ class ResultClass:
         self.txt_study.place(relx=0.150, y=220, relwidth=0.28, height=28)
         self.txt_study.set("Pilih")
 
-        txt_criteria = tk.Entry(
+        vcmd = (self.root.register(self.validate_numeric), "%P")
+
+        txt_kkm = tk.Entry(
             self.root,
-            textvariable=self.var_criteria,
+            textvariable=self.var_kkm,
             font=fonts.get_font(self.root, 14),
             bg="lightyellow",
-        ).place(relx=0.15, y=280, relwidth=0.14)
+            justify=tk.CENTER,
+            validate="key",
+            validatecommand=vcmd,
+        )
+        txt_kkm.place(relx=0.15, y=280, relwidth=0.14)
 
         txt_mark = tk.Entry(
             self.root,
             textvariable=self.var_mark,
             font=fonts.get_font(self.root, 14),
             bg="lightyellow",
-        ).place(relx=0.15, y=340, relwidth=0.14)
+            justify=tk.CENTER,
+            validate="key",
+            validatecommand=vcmd,
+        )
+        txt_mark.place(relx=0.15, y=340, relwidth=0.14)
 
         # ====== Button ======
         btn_submit = tk.Button(
@@ -127,6 +141,7 @@ class ResultClass:
             bg="lightgreen",
             activebackground="lightgreen",
             cursor="hand2",
+            command=self.submit,
         ).place(
             relx=0.15,
             rely=0.87,
@@ -164,7 +179,12 @@ class ResultClass:
         self.txt_student.set("Pilih")
         self.txt_study.set("Pilih")
         self.var_nisn.set("")
+        self.var_study.set("Pilih")
+        self.var_kkm.set("")
         self.var_mark.set("")
+
+    def validate_numeric(self, value):
+        return value.isdigit() or value == ""
 
     def fetch_students(self):
         con = sqlite3.connect(database="rapot_siswa.db")
@@ -205,6 +225,46 @@ class ResultClass:
             return
 
         self.var_nisn.set(self.nisn_list[selected_index])
+
+    def submit(self):
+        con = sqlite3.connect(database="rapot_siswa.db")
+        cur = con.cursor()
+        try:
+            if self.var_kkm.get() == "":
+                messagebox.showerror("Error", "KKM harus diisi", parent=self.root)
+            else:
+                cur.execute(
+                    "SELECT * FROM RESULT WHERE student = ? AND study = ?",
+                    (self.var_student.get(), self.var_study.get()),
+                )
+                existing = cur.fetchone()
+                if existing:
+                    cur.execute(
+                        "UPDATE RESULT SET kkm = ?, mark = ? WHERE student = ? AND study = ?",
+                        (
+                            self.var_kkm.get(),
+                            self.var_mark.get(),
+                            self.var_student.get(),
+                            self.var_study.get(),
+                        ),
+                    )
+                else:
+                    cur.execute(
+                        "INSERT INTO RESULT (student, nisn, study, kkm, mark) VALUES (?, ?, ?, ?, ?)",
+                        (
+                            self.var_student.get(),
+                            self.var_nisn.get(),
+                            self.var_study.get(),
+                            self.var_kkm.get(),
+                            self.var_mark.get(),
+                        ),
+                    )
+                con.commit()
+                messagebox.showinfo(
+                    "Berhasil", "Nilai berhasil disimpan", parent=self.root
+                )
+        except Exception as ex:
+            messagebox.showerror("Error", f"error dikarenakan {str(ex)}")
 
 
 if __name__ == "__main__":

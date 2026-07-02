@@ -54,6 +54,18 @@ def create_db():
     )
     con.commit()
 
+    cur.execute(
+        """CREATE TABLE IF NOT EXISTS result (
+            result_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            student text,
+            nisn text,
+            study text,
+            kkm text,
+            mark text
+            )"""
+    )
+    con.commit()
+
     con.close()
 
 
