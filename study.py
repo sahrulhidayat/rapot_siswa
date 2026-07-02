@@ -30,6 +30,9 @@ class StudyClass:
         self.var_studyGroup = tk.StringVar()
         self.var_teacher = tk.StringVar()
 
+        self.teacher_list = []
+        self.fetch_teacher()
+
         # ==== Widgets ====
         lbl_studyName = tk.Label(
             self.root,
@@ -83,12 +86,16 @@ class StudyClass:
         self.txt_studyGroup.place(relx=0.125, y=100, relwidth=0.18)
         self.txt_studyGroup.set("Pilih")
 
-        txt_teacher = tk.Entry(
+        self.txt_teacher = ttk.Combobox(
             self.root,
             textvariable=self.var_teacher,
+            values=self.teacher_list,
             font=fonts.get_font(self.root, 13),
-            bg="lightyellow",
-        ).place(relx=0.125, y=140, relwidth=0.18)
+            state="readonly",
+            justify=tk.CENTER,
+        )
+        self.txt_teacher.place(relx=0.125, y=140, relwidth=0.18)
+        self.txt_teacher.set("Pilih")
 
         self.txt_description = tk.Text(
             self.root,
@@ -206,6 +213,8 @@ class StudyClass:
         self.var_search.set("")
         self.txt_description.delete("1.0", tk.END)
         self.txt_studyName.config(state=tk.NORMAL)
+        self.txt_studyGroup.set("Pilih")
+        self.txt_teacher.set("Pilih")
 
     def delete(self):
         con = sqlite3.connect(database="rapot_siswa.db")
@@ -390,6 +399,22 @@ class StudyClass:
             if len(rows) > 0:
                 for row in rows:
                     self.studyGroup_list.append(row[0])
+
+        except Exception as ex:
+            messagebox.showerror("Error", f"error dikarenakan {str(ex)}")
+
+    def fetch_teacher(self):
+        con = sqlite3.connect(database="rapot_siswa.db")
+        cur = con.cursor()
+        try:
+            cur.execute("""SELECT
+                name
+                FROM
+                teacher""")
+            rows = cur.fetchall()
+            if len(rows) > 0:
+                for row in rows:
+                    self.teacher_list.append(row[0])
 
         except Exception as ex:
             messagebox.showerror("Error", f"error dikarenakan {str(ex)}")

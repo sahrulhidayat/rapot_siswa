@@ -33,6 +33,18 @@ def create_db():
     con.commit()
 
     cur.execute(
+        """CREATE TABLE IF NOT EXISTS teacher (
+            teacher_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name text,
+            nip text,
+            gender text,
+            religion text,
+            contact text
+            )"""
+    )
+    con.commit()
+
+    cur.execute(
         """CREATE TABLE IF NOT EXISTS studyGroup (
             group_id INTEGER PRIMARY KEY AUTOINCREMENT,
             name text,

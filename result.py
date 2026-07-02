@@ -29,6 +29,7 @@ class ResultClass:
         # ==== Widgets ======
         # ========== Variables ============
         self.var_nisn = tk.StringVar()
+        self.var_criteria = tk.StringVar()
         self.var_mark = tk.StringVar()
 
         self.nisn_list = []
@@ -61,12 +62,19 @@ class ResultClass:
             bg="white",
         ).place(relx=0.01, y=220)
 
+        lbl_criteria = tk.Label(
+            self.root,
+            text="KKM",
+            font=fonts.get_font(self.root, 14),
+            bg="white",
+        ).place(relx=0.01, y=280)
+
         lbl_mark = tk.Label(
             self.root,
             text="Nilai",
             font=fonts.get_font(self.root, 14),
             bg="white",
-        ).place(relx=0.01, y=280)
+        ).place(relx=0.01, y=340)
 
         self.txt_student = ttk.Combobox(
             self.root,
@@ -75,7 +83,7 @@ class ResultClass:
             style="Custom.TCombobox",
             state="readonly",
         )
-        self.txt_student.place(relx=0.150, y=100, relwidth=0.33, height=28)
+        self.txt_student.place(relx=0.150, y=100, relwidth=0.28, height=28)
         self.txt_student.set("Pilih")
         self.txt_student.bind("<<ComboboxSelected>>", self.on_student_selected)
 
@@ -85,7 +93,7 @@ class ResultClass:
             font=fonts.get_font(self.root, 14),
             bg="lightyellow",
             state="readonly",
-        ).place(relx=0.15, y=160, relwidth=0.33)
+        ).place(relx=0.15, y=160, relwidth=0.28)
 
         self.txt_study = ttk.Combobox(
             self.root,
@@ -94,15 +102,22 @@ class ResultClass:
             style="Custom.TCombobox",
             state="readonly",
         )
-        self.txt_study.place(relx=0.150, y=210, relwidth=0.33, height=28)
+        self.txt_study.place(relx=0.150, y=220, relwidth=0.28, height=28)
         self.txt_study.set("Pilih")
+
+        txt_criteria = tk.Entry(
+            self.root,
+            textvariable=self.var_criteria,
+            font=fonts.get_font(self.root, 14),
+            bg="lightyellow",
+        ).place(relx=0.15, y=280, relwidth=0.14)
 
         txt_mark = tk.Entry(
             self.root,
             textvariable=self.var_mark,
             font=fonts.get_font(self.root, 14),
             bg="lightyellow",
-        ).place(relx=0.15, y=280, relwidth=0.33)
+        ).place(relx=0.15, y=340, relwidth=0.14)
 
         # ====== Button ======
         btn_submit = tk.Button(
@@ -126,6 +141,7 @@ class ResultClass:
             bg="lightgray",
             activebackground="lightgray",
             cursor="hand2",
+            command=self.clear,
         ).place(
             relx=0.28,
             rely=0.87,
@@ -143,6 +159,12 @@ class ResultClass:
         )
 
     # ==============================================
+
+    def clear(self):
+        self.txt_student.set("Pilih")
+        self.txt_study.set("Pilih")
+        self.var_nisn.set("")
+        self.var_mark.set("")
 
     def fetch_students(self):
         con = sqlite3.connect(database="rapot_siswa.db")

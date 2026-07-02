@@ -35,13 +35,16 @@ def get_font(root, size=12, weight="normal"):
     Pass the Tk root or a widget (it will be used to probe available families).
     """
     fam = _choose_family(root)
-    resolved_weight = "normal"
-    if weight and weight.lower() not in ("bold", "heavy", "black"):
-        resolved_weight = weight
+    # Normalize weight: treat common heavy weights as 'bold', otherwise 'normal'
+    if weight and weight.lower() in ("bold", "heavy", "black"):
+        resolved_weight = "bold"
+    else:
+        resolved_weight = "normal"
+
     if fam:
-        return (fam, size, resolved_weight) if resolved_weight else (fam, size)
+        return (fam, size, resolved_weight)
     # If we couldn't determine a family, return Tk default font name tuple
-    return (None, size, resolved_weight) if resolved_weight else (None, size)
+    return (None, size, resolved_weight)
 
 
 def apply_default(root, base_size=12):

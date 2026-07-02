@@ -5,6 +5,8 @@ from study_group import StudyGroupClass
 from study import StudyClass
 from student import StudentClass
 from result import ResultClass
+from teacher import TeacherClass
+from report import ReportClass
 
 
 class StudentReport:
@@ -22,7 +24,9 @@ class StudentReport:
         self.study_group_win = None
         self.study_win = None
         self.student_win = None
+        self.teacher_win = None
         self.result_win = None
+        self.report_win = None
 
         # ===== Icons =====
         self.logo_dash = ImageTk.PhotoImage(Image.open("images/logo_dash.png"))
@@ -86,12 +90,13 @@ class StudentReport:
             bg="#0f7c8f",
             fg="white",
             cursor="hand2",
+            command=self.add_teacher,
         )
         btn_teacher.place(x=680, y=5, width=200, height=40)
 
         btn_result = tk.Button(
             M_Frame,
-            text="Hasil",
+            text="Input Rapot",
             font=fonts.get_font(self.root, 13),
             bg="#0f7c8f",
             fg="white",
@@ -100,15 +105,16 @@ class StudentReport:
         )
         btn_result.place(x=900, y=5, width=200, height=40)
 
-        btn_logout = tk.Button(
+        btn_report = tk.Button(
             M_Frame,
-            text="Logout",
+            text="Rapot Siswa",
             font=fonts.get_font(self.root, 13),
             bg="#0f7c8f",
             fg="white",
             cursor="hand2",
+            command=self.view_report,
         )
-        btn_logout.place(x=1120, y=5, width=200, height=40)
+        btn_report.place(x=1120, y=5, width=200, height=40)
 
         # ==== Footer ====
         footer = tk.Label(
@@ -181,12 +187,26 @@ class StudentReport:
         else:
             self.student_win.lift()
 
+    def add_teacher(self):
+        if self.teacher_win is None or not self.teacher_win.winfo_exists():
+            self.teacher_win = tk.Toplevel(self.root)
+            self.new_obj = TeacherClass(self.teacher_win)
+        else:
+            self.teacher_win.lift()
+
     def add_result(self):
         if self.result_win is None or not self.result_win.winfo_exists():
             self.result_win = tk.Toplevel(self.root)
             self.new_obj = ResultClass(self.result_win)
         else:
             self.result_win.lift()
+
+    def view_report(self):
+        if self.report_win is None or not self.report_win.winfo_exists():
+            self.report_win = tk.Toplevel(self.root)
+            self.new_obj = ReportClass(self.report_win)
+        else:
+            self.report_win.lift()
 
 
 if __name__ == "__main__":

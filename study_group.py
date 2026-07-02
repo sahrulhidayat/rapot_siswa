@@ -30,6 +30,9 @@ class StudyGroupClass:
         self.var_class = tk.StringVar()
         self.var_guardianTeacher = tk.StringVar()
 
+        self.teacher_list = []
+        self.fetch_teacher()
+
         # ==== Widgets ====
         lbl_groupName = tk.Label(
             self.root,
@@ -70,13 +73,16 @@ class StudyGroupClass:
         )
         self.txt_class.place(relx=0.125, y=100, relwidth=0.18)
 
-        self.txt_guardianTeacher = tk.Entry(
+        self.txt_guardianTeacher = ttk.Combobox(
             self.root,
             textvariable=self.var_guardianTeacher,
+            values=self.teacher_list,
             font=fonts.get_font(self.root, 13),
-            bg="lightyellow",
+            state="readonly",
+            justify=tk.CENTER,
         )
         self.txt_guardianTeacher.place(relx=0.125, y=140, relwidth=0.18)
+        self.txt_guardianTeacher.set("Pilih")
 
         # ==== Buttons ====
         self.btn_add = tk.Button(
@@ -184,6 +190,7 @@ class StudyGroupClass:
         self.var_guardianTeacher.set("")
         self.var_search.set("")
         self.txt_groupName.config(state=tk.NORMAL)
+        self.txt_guardianTeacher.set("Pilih")
 
     def delete(self):
         con = sqlite3.connect(database="rapot_siswa.db")
@@ -347,6 +354,22 @@ class StudyGroupClass:
             self.StudyGroupTable.delete(*self.StudyGroupTable.get_children())
             for row in rows:
                 self.StudyGroupTable.insert("", tk.END, values=row)
+
+        except Exception as ex:
+            messagebox.showerror("Error", f"error dikarenakan {str(ex)}")
+
+    def fetch_teacher(self):
+        con = sqlite3.connect(database="rapot_siswa.db")
+        cur = con.cursor()
+        try:
+            cur.execute("""SELECT
+                name
+                FROM
+                teacher""")
+            rows = cur.fetchall()
+            if len(rows) > 0:
+                for row in rows:
+                    self.teacher_list.append(row[0])
 
         except Exception as ex:
             messagebox.showerror("Error", f"error dikarenakan {str(ex)}")

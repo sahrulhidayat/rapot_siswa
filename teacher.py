@@ -4,7 +4,7 @@ import sqlite3
 import fonts
 
 
-class StudentClass:
+class TeacherClass:
     def __init__(self, root):
         self.root = root
         self.root.title("Sistem Rapot Siswa")
@@ -16,7 +16,7 @@ class StudentClass:
         # ===== Title =====
         title = tk.Label(
             self.root,
-            text="Sesuaikan Detail Siswa",
+            text="Sesuaikan Detail Guru",
             padx=10,
             compound=tk.LEFT,
             font=fonts.get_font(self.root, 18),
@@ -26,29 +26,26 @@ class StudentClass:
         title.place(relx=0.01, y=15, relwidth=0.98, height=35)
 
         # ==== Variables ====
-        self.var_nisn = tk.StringVar()
+
+        self.var_teacherId = tk.StringVar()
         self.var_name = tk.StringVar()
+        self.var_nip = tk.StringVar()
         self.var_gender = tk.StringVar()
         self.var_religion = tk.StringVar()
         self.var_contact = tk.StringVar()
-        self.var_studyGroup = tk.StringVar()
-        self.var_birthPlace = tk.StringVar()
-        self.var_birthDate = tk.StringVar()
-        self.var_father = tk.StringVar()
-        self.var_mother = tk.StringVar()
 
         # ==== Widgets ====
         # -------- Column 1 --------
-        lbl_nisn = tk.Label(
+        lbl_name = tk.Label(
             self.root,
-            text="NISN",
+            text="Nama",
             font=fonts.get_font(self.root, 11),
             bg="white",
         ).place(relx=0.01, y=60)
 
-        lbl_name = tk.Label(
+        lbl_nip = tk.Label(
             self.root,
-            text="Nama",
+            text="NIP",
             font=fonts.get_font(self.root, 11),
             bg="white",
         ).place(relx=0.01, y=100)
@@ -74,29 +71,23 @@ class StudentClass:
             bg="white",
         ).place(relx=0.01, y=220)
 
-        lbl_address = tk.Label(
-            self.root,
-            text="Alamat",
-            font=fonts.get_font(self.root, 11),
-            bg="white",
-        ).place(relx=0.01, y=260)
-
         # ==== Entry Fields ====
 
-        self.txt_nisn = tk.Entry(
-            self.root,
-            textvariable=self.var_nisn,
-            font=fonts.get_font(self.root, 11),
-            bg="lightyellow",
-        )
-        self.txt_nisn.place(relx=0.125, y=60, relwidth=0.18)
-
-        txt_name = tk.Entry(
+        self.txt_name = tk.Entry(
             self.root,
             textvariable=self.var_name,
             font=fonts.get_font(self.root, 11),
             bg="lightyellow",
-        ).place(relx=0.125, y=100, relwidth=0.18)
+        )
+        self.txt_name.place(relx=0.125, y=60, relwidth=0.18)
+
+        self.txt_nip = tk.Entry(
+            self.root,
+            textvariable=self.var_nip,
+            font=fonts.get_font(self.root, 11),
+            bg="lightyellow",
+        )
+        self.txt_nip.place(relx=0.125, y=100, relwidth=0.18)
 
         self.txt_gender = ttk.Combobox(
             self.root,
@@ -122,95 +113,6 @@ class StudentClass:
             font=fonts.get_font(self.root, 11),
             bg="lightyellow",
         ).place(relx=0.125, y=220, relwidth=0.18)
-
-        # -------- Column 2 --------
-        lbl_studyGroup = tk.Label(
-            self.root,
-            text="Rombel",
-            font=fonts.get_font(self.root, 11),
-            bg="white",
-        ).place(relx=0.31, y=60)
-
-        lbl_birthPlace = tk.Label(
-            self.root,
-            text="Tempat Lahir",
-            font=fonts.get_font(self.root, 11),
-            bg="white",
-        ).place(relx=0.31, y=100)
-
-        lbl_birthDate = tk.Label(
-            self.root,
-            text="Tanggal Lahir",
-            font=fonts.get_font(self.root, 11),
-            bg="white",
-        ).place(relx=0.31, y=140)
-
-        lbl_father = tk.Label(
-            self.root,
-            text="Ayah",
-            font=fonts.get_font(self.root, 11),
-            bg="white",
-        ).place(relx=0.31, y=180)
-
-        lbl_mother = tk.Label(
-            self.root,
-            text="Ibu",
-            font=fonts.get_font(self.root, 11),
-            bg="white",
-        ).place(relx=0.31, y=220)
-
-        # ==== Entry Fields ====
-        self.studyGroup_list = []
-        # function_call to update the list
-        self.fetch_studyGroup()
-
-        self.txt_studyGroup = ttk.Combobox(
-            self.root,
-            textvariable=self.var_studyGroup,
-            values=self.studyGroup_list,
-            font=fonts.get_font(self.root, 11),
-            state="readonly",
-            justify=tk.CENTER,
-        )
-        self.txt_studyGroup.place(relx=0.411, y=60, relwidth=0.18, height=24)
-        self.txt_studyGroup.set("Pilih")
-
-        txt_birthPlace = tk.Entry(
-            self.root,
-            textvariable=self.var_birthPlace,
-            font=fonts.get_font(self.root, 11),
-            bg="lightyellow",
-        ).place(relx=0.411, y=100, relwidth=0.18)
-
-        txt_birthDate = tk.Entry(
-            self.root,
-            textvariable=self.var_birthDate,
-            font=fonts.get_font(self.root, 11),
-            bg="lightyellow",
-        ).place(relx=0.411, y=140, relwidth=0.18)
-
-        txt_father = tk.Entry(
-            self.root,
-            textvariable=self.var_father,
-            font=fonts.get_font(self.root, 11),
-            bg="lightyellow",
-        ).place(relx=0.411, y=180, relwidth=0.18)
-
-        txt_mother = tk.Entry(
-            self.root,
-            textvariable=self.var_mother,
-            font=fonts.get_font(self.root, 11),
-            bg="lightyellow",
-        ).place(relx=0.411, y=220, relwidth=0.18)
-
-        # --------- Text Address ---------
-
-        self.txt_address = tk.Text(
-            self.root,
-            font=fonts.get_font(self.root, 11),
-            bg="lightyellow",
-        )
-        self.txt_address.place(relx=0.125, y=260, relwidth=0.465, relheight=0.208)
 
         # ==== Buttons ====
         self.btn_add = tk.Button(
@@ -255,14 +157,15 @@ class StudentClass:
 
         # ==== Search Panel ====
         self.var_search = tk.StringVar()
-        lbl_search_student = tk.Label(
+
+        lbl_search_teacher = tk.Label(
             self.root,
-            text="Cari Siswa",
+            text="Cari Guru",
             font=fonts.get_font(self.root, 11),
             bg="white",
         ).place(relx=0.60, y=60)
 
-        txt_search_student = tk.Entry(
+        txt_search_teacher = tk.Entry(
             self.root,
             textvariable=self.var_search,
             font=fonts.get_font(self.root, 11),
@@ -286,100 +189,74 @@ class StudentClass:
         scrolly = tk.Scrollbar(self.C_Frame, orient=tk.VERTICAL)
         scrollx = tk.Scrollbar(self.C_Frame, orient=tk.HORIZONTAL)
 
-        self.StudentTable = ttk.Treeview(
+        self.TeacherTable = ttk.Treeview(
             self.C_Frame,
             columns=(
-                "nisn",
+                "teacher_id",
                 "name",
+                "nip",
                 "gender",
                 "religion",
                 "contact",
-                "address",
-                "study_group",
-                "birth_place",
-                "birth_date",
-                "father",
-                "mother",
             ),
             xscrollcommand=scrollx.set,
             yscrollcommand=scrolly.set,
         )
         scrollx.pack(side=tk.BOTTOM, fill=tk.X)
         scrolly.pack(side=tk.RIGHT, fill=tk.Y)
-        scrollx.config(command=self.StudentTable.xview)
-        scrolly.config(command=self.StudentTable.yview)
+        scrollx.config(command=self.TeacherTable.xview)
+        scrolly.config(command=self.TeacherTable.yview)
 
-        self.StudentTable.heading("nisn", text="NISN")
-        self.StudentTable.heading("name", text="Nama")
-        self.StudentTable.heading("gender", text="Jenis Kelamin")
-        self.StudentTable.heading("religion", text="Agama")
-        self.StudentTable.heading("contact", text="No. HP")
-        self.StudentTable.heading("address", text="Alamat")
-        self.StudentTable.heading("study_group", text="Rombel")
-        self.StudentTable.heading("birth_place", text="Tempat Lahir")
-        self.StudentTable.heading("birth_date", text="Tanggal Lahir")
-        self.StudentTable.heading("father", text="Ayah")
-        self.StudentTable.heading("mother", text="Ibu")
-        self.StudentTable["show"] = "headings"
+        self.TeacherTable.heading("teacher_id", text="ID Guru")
+        self.TeacherTable.heading("name", text="Nama")
+        self.TeacherTable.heading("nip", text="NIP")
+        self.TeacherTable.heading("gender", text="Jenis Kelamin")
+        self.TeacherTable.heading("religion", text="Agama")
+        self.TeacherTable.heading("contact", text="No. HP")
+        self.TeacherTable["show"] = "headings"
 
-        self.StudentTable.column("nisn", width=100)
-        self.StudentTable.column("name", width=100)
-        self.StudentTable.column("gender", width=100)
-        self.StudentTable.column("religion", width=100)
-        self.StudentTable.column("contact", width=100)
-        self.StudentTable.column("address", width=100)
-        self.StudentTable.column("study_group", width=100)
-        self.StudentTable.column("birth_place", width=100)
-        self.StudentTable.column("birth_date", width=100)
-        self.StudentTable.column("father", width=100)
-        self.StudentTable.column("mother", width=100)
+        self.TeacherTable.column("teacher_id", width=100)
+        self.TeacherTable.column("name", width=100)
+        self.TeacherTable.column("nip", width=100)
+        self.TeacherTable.column("gender", width=100)
+        self.TeacherTable.column("religion", width=100)
+        self.TeacherTable.column("contact", width=100)
 
-        self.StudentTable.pack(fill=tk.BOTH, expand=1)
-        self.StudentTable.bind("<ButtonRelease-1>", self.get_data)
+        self.TeacherTable.pack(fill=tk.BOTH, expand=1)
+        self.TeacherTable.bind("<ButtonRelease-1>", self.get_data)
         self.show()
 
     # ========================================================
     def clear(self):
         self.show()
-        self.var_nisn.set("")
         self.var_name.set("")
+        self.var_nip.set("")
         self.var_gender.set("")
         self.var_religion.set("")
         self.var_contact.set("")
-        self.txt_address.delete("1.0", tk.END)
-        self.var_studyGroup.set("")
-        self.var_birthPlace.set("")
-        self.var_birthDate.set("")
-        self.var_father.set("")
-        self.var_mother.set("")
-        self.txt_nisn.config(state=tk.NORMAL)
-        self.var_search.set("")
         self.txt_gender.set("Pilih")
-        self.txt_studyGroup.set("Pilih")
 
     def delete(self):
         con = sqlite3.connect(database="rapot_siswa.db")
         cur = con.cursor()
         try:
-            if self.var_nisn.get() == "":
-                messagebox.showerror(
-                    "Error", "Pilih salah satu siswa", parent=self.root
-                )
+            if self.var_name.get() == "":
+                messagebox.showerror("Error", "Pilih salah satu guru", parent=self.root)
             else:
                 cur.execute(
                     """SELECT
                         *
                         FROM
-                        student
+                        teacher
                         WHERE
-                        nisn = ?""",
-                    (self.var_nisn.get(),),
+                        teacher_id = ?""",
+                    (self.var_teacherId.get(),),
                 )
                 row = cur.fetchone()
                 if row is None:
                     messagebox.showerror(
                         "Error",
-                        "Pilih siswa dari daftar yang sudah ada",
+                        "Pilih guru dari daftar yang sudah ada",
                         parent=self.root,
                     )
                 else:
@@ -392,12 +269,12 @@ class StudentClass:
                         cur.execute(
                             """DELETE FROM student
                                 WHERE
-                                nisn = ?""",
-                            (self.var_nisn.get(),),
+                                teacher_id = ?""",
+                            (self.var_teacherId.get(),),
                         )
                         con.commit()
                         messagebox.showinfo(
-                            "Menghapus", "Siswa berhasil dihapus", parent=self.root
+                            "Menghapus", "Guru berhasil dihapus", parent=self.root
                         )
                         self.clear()
 
@@ -405,79 +282,62 @@ class StudentClass:
             messagebox.showerror("Error", f"error dikarenakan {str(ex)}")
 
     def get_data(self, ev):
-        self.txt_nisn.config(state="readonly")
-        r = self.StudentTable.focus()
-        content = self.StudentTable.item(r)
+        self.txt_nip.config(state="readonly")
+        r = self.TeacherTable.focus()
+        content = self.TeacherTable.item(r)
         row = content["values"]
         if not row:
             return
-        self.var_nisn.set(row[0])
+        self.var_teacherId.set(row[0])
         self.var_name.set(row[1])
-        self.var_gender.set(row[2])
-        self.var_religion.set(row[3])
-        self.var_contact.set(row[4])
-        self.txt_address.delete("1.0", tk.END)
-        self.txt_address.insert(tk.END, row[5])
-        self.var_studyGroup.set(row[6])
-        self.var_birthPlace.set(row[7])
-        self.var_birthDate.set(row[8])
-        self.var_father.set(row[9])
-        self.var_mother.set(row[10])
+        self.var_nip.set(row[2])
+        self.var_gender.set(row[3])
+        self.var_religion.set(row[4])
+        self.var_contact.set(row[5])
 
     def add(self):
         con = sqlite3.connect(database="rapot_siswa.db")
         cur = con.cursor()
         try:
-            if self.var_nisn.get() == "":
-                messagebox.showerror("Error", "NISN harus diisi", parent=self.root)
+            if self.var_name.get() == "":
+                messagebox.showerror("Error", "Nama harus diisi", parent=self.root)
             else:
                 cur.execute(
                     """SELECT
                         *
                         FROM
-                        student
+                        teacher
                         WHERE
-                        nisn = ?""",
-                    (self.var_nisn.get(),),
+                        name = ?""",
+                    (self.var_name.get(),),
                 )
                 row = cur.fetchone()
                 if row is not None:
-                    messagebox.showerror("Error", "NISN sudah ada", parent=self.root)
+                    messagebox.showerror("Error", "Guru sudah ada", parent=self.root)
                 else:
                     cur.execute(
                         """INSERT INTO
-                            student (
-                            nisn,
+                            teacher (
+                            
                             name,
+                            nip,
                             gender,
                             religion,
-                            contact,
-                            address,
-                            study_group,
-                            birth_place,
-                            birth_date,
-                            father,
-                            mother
+                            contact
                             )
                             VALUES
-                            (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                            (?, ?, ?, ?, ?)""",
                         (
-                            self.var_nisn.get(),
                             self.var_name.get(),
+                            self.var_nip.get(),
                             self.var_gender.get(),
                             self.var_religion.get(),
                             self.var_contact.get(),
-                            self.txt_address.get("1.0", tk.END),
-                            self.var_studyGroup.get(),
-                            self.var_birthPlace.get(),
-                            self.var_birthDate.get(),
-                            self.var_father.get(),
-                            self.var_mother.get(),
                         ),
                     )
                     con.commit()
                     messagebox.showinfo(
-                        "Berhasil", "Siswa berhasil ditambahkan", parent=self.root
+                        "Berhasil", "Guru berhasil ditambahkan", parent=self.root
                     )
                     self.show()
         except Exception as ex:
@@ -487,58 +347,48 @@ class StudentClass:
         con = sqlite3.connect(database="rapot_siswa.db")
         cur = con.cursor()
         try:
-            if self.var_nisn.get() == "":
-                messagebox.showerror("Error", "NISN harus diisi", parent=self.root)
+            if self.var_name.get() == "":
+                messagebox.showerror("Error", "Nama harus diisi", parent=self.root)
             else:
                 cur.execute(
                     """SELECT
                         *
                         FROM
-                        student
+                        teacher
                         WHERE
-                        nisn = ?""",
-                    (self.var_nisn.get(),),
+                        teacher_id = ?""",
+                    (self.var_teacherId.get(),),
                 )
                 row = cur.fetchone()
                 if row is None:
                     messagebox.showerror(
                         "Error",
-                        "Pilih siswa dari daftar yang sudah ada",
+                        "Pilih guru dari daftar yang sudah ada",
                         parent=self.root,
                     )
                 else:
                     cur.execute(
-                        """UPDATE student
+                        """UPDATE teacher
                             SET
                             name = ?,
+                            nip = ?,
                             gender = ?,
                             religion = ?,
-                            contact = ?,
-                            address = ?,
-                            study_group = ?,
-                            birth_place = ?,
-                            birth_date = ?,
-                            father = ?,
-                            mother = ?
+                            contact = ?
                             WHERE
-                            nisn = ?""",
+                            teacher_id = ?""",
                         (
                             self.var_name.get(),
+                            self.var_nip.get(),
                             self.var_gender.get(),
                             self.var_religion.get(),
                             self.var_contact.get(),
-                            self.txt_address.get("1.0", tk.END),
-                            self.var_studyGroup.get(),
-                            self.var_birthPlace.get(),
-                            self.var_birthDate.get(),
-                            self.var_father.get(),
-                            self.var_mother.get(),
-                            self.var_nisn.get(),
+                            self.var_teacherId.get(),
                         ),
                     )
                     con.commit()
                     messagebox.showinfo(
-                        "Berhasil", "Siswa berhasil diperbarui", parent=self.root
+                        "Berhasil", "Guru berhasil diperbarui", parent=self.root
                     )
                     self.show()
         except Exception as ex:
@@ -551,27 +401,11 @@ class StudentClass:
             cur.execute("""SELECT
                 *
                 FROM
-                student""")
+                teacher""")
             rows = cur.fetchall()
-            self.StudentTable.delete(*self.StudentTable.get_children())
+            self.TeacherTable.delete(*self.TeacherTable.get_children())
             for row in rows:
-                self.StudentTable.insert("", tk.END, values=row)
-
-        except Exception as ex:
-            messagebox.showerror("Error", f"error dikarenakan {str(ex)}")
-
-    def fetch_studyGroup(self):
-        con = sqlite3.connect(database="rapot_siswa.db")
-        cur = con.cursor()
-        try:
-            cur.execute("""SELECT
-                name
-                FROM
-                studyGroup""")
-            rows = cur.fetchall()
-            if len(rows) > 0:
-                for row in rows:
-                    self.studyGroup_list.append(row[0])
+                self.TeacherTable.insert("", tk.END, values=row)
 
         except Exception as ex:
             messagebox.showerror("Error", f"error dikarenakan {str(ex)}")
@@ -584,7 +418,7 @@ class StudentClass:
             if search_text == "":
                 messagebox.showerror(
                     "Error",
-                    "Masukkan nama siswa untuk mencari",
+                    "Masukkan nama guru untuk mencari",
                     parent=self.root,
                 )
                 return
@@ -593,16 +427,16 @@ class StudentClass:
                 """SELECT
                     *
                     FROM
-                    student
+                    teacher
                     WHERE
                     name LIKE ?""",
                 (f"%{search_text}%",),
             )
             rows = cur.fetchall()
             if rows:
-                self.StudentTable.delete(*self.StudentTable.get_children())
+                self.TeacherTable.delete(*self.TeacherTable.get_children())
                 for row in rows:
-                    self.StudentTable.insert("", tk.END, values=row)
+                    self.TeacherTable.insert("", tk.END, values=row)
             else:
                 messagebox.showerror("Error", "Data tidak ditemukan", parent=self.root)
 
@@ -612,5 +446,5 @@ class StudentClass:
 
 if __name__ == "__main__":
     root = tk.Tk()
-    obj = StudentClass(root)
+    obj = TeacherClass(root)
     root.mainloop()
