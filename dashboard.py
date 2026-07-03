@@ -1,5 +1,7 @@
 import tkinter as tk
 from PIL import Image, ImageTk
+from tkinter import ttk, messagebox
+import sqlite3
 import fonts
 from study_group import StudyGroupClass
 from study import StudyClass
@@ -116,16 +118,6 @@ class StudentReport:
         )
         btn_report.place(x=1120, y=5, width=200, height=40)
 
-        # ==== Footer ====
-        footer = tk.Label(
-            self.root,
-            text="Sistem Rapot Siswa | v0.01 2026",
-            font=fonts.get_font(self.root, 11),
-            bg="#262626",
-            fg="white",
-        )
-        footer.pack(side=tk.BOTTOM, fill=tk.X)
-
         # ==== Content Window ====
         self.bg_img = Image.open("images/bg.png")
         self.bg_img = self.bg_img.resize((1366, 768), Image.Resampling.LANCZOS)
@@ -144,27 +136,83 @@ class StudentReport:
             relief=tk.RIDGE,
             bg="#da590f",
             fg="white",
-        ).place(x=400, y=530, width=300, height=100)
+        )
+        self.lbl_study.place(x=400, y=530, width=300, height=100)
 
         self.lbl_student = tk.Label(
             self.root,
-            text="Total Pelajaran\n[ 0 ]",
+            text="Total Siswa\n[ 0 ]",
             font=fonts.get_font(self.root, 18),
             bd=5,
             relief=tk.RIDGE,
             bg="#05b63a",
             fg="white",
-        ).place(x=710, y=530, width=300, height=100)
+        )
+        self.lbl_student.place(x=710, y=530, width=300, height=100)
 
-        self.lbl_result = tk.Label(
+        self.lbl_teacher = tk.Label(
             self.root,
-            text="Total Pelajaran\n[ 0 ]",
+            text="Total Guru\n[ 0 ]",
             font=fonts.get_font(self.root, 18),
             bd=5,
             relief=tk.RIDGE,
             bg="#0584b6",
             fg="white",
-        ).place(x=1020, y=530, width=300, height=100)
+        )
+        self.lbl_teacher.place(x=1020, y=530, width=300, height=100)
+
+        # ==== Footer ====
+        footer = tk.Label(
+            self.root,
+            text="Sistem Rapot Siswa | v0.01 2026",
+            font=fonts.get_font(self.root, 11),
+            bg="#262626",
+            fg="white",
+        )
+        footer.pack(side=tk.BOTTOM, fill=tk.X)
+
+        self.update_details()
+
+    # ==============================================
+
+    def update_details(self):
+        con = sqlite3.connect(database="rapot_siswa.db")
+        cur = con.cursor()
+        try:
+            cur.execute("""SELECT
+                *
+                FROM
+                study""")
+            rows = cur.fetchall()
+            if len(rows) > 0:
+                self.lbl_study.config(text=f"Total Pelajaran\n[ {str(len(rows))} ]")
+
+            cur.execute("""SELECT
+                *
+                FROM
+                student""")
+            rows = cur.fetchall()
+            if len(rows) > 0:
+                self.lbl_student.config(text=f"Total Siswa\n[ {str(len(rows))} ]")
+
+            cur.execute("""SELECT
+                *
+                FROM
+                student""")
+            rows = cur.fetchall()
+            if len(rows) > 0:
+                self.lbl_student.config(text=f"Total Siswa\n[ {str(len(rows))} ]")
+
+            cur.execute("""SELECT
+                *
+                FROM
+                teacher""")
+            rows = cur.fetchall()
+            if len(rows) > 0:
+                self.lbl_teacher.config(text=f"Total Guru\n[ {str(len(rows))} ]")
+
+        except Exception as ex:
+            messagebox.showerror("Error", f"error dikarenakan {str(ex)}")
 
     def add_studyGroup(self):
         if self.study_group_win is None or not self.study_group_win.winfo_exists():

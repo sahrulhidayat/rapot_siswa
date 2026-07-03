@@ -241,11 +241,11 @@ class StudyGroupClass:
 
     def get_data(self, ev):
         self.txt_groupName.config(state="readonly")
-        r = self.StudyGroupTable.focus()
-        if not r:
+        selected = self.StudyGroupTable.selection()
+        if not selected:
             return
-        content = self.StudyGroupTable.item(r)
-        row = content.get("values")
+        item_id = selected[0]
+        row = self.StudyGroupTable.item(item_id, "values")
         if not row:
             return
         self.var_groupName.set(row[1])

@@ -83,11 +83,15 @@ class StudentClass:
 
         # ==== Entry Fields ====
 
+        vcmd = (self.root.register(self.validate_numeric), "%P")
+
         self.txt_nisn = tk.Entry(
             self.root,
             textvariable=self.var_nisn,
             font=fonts.get_font(self.root, 11),
             bg="lightyellow",
+            validate="key",
+            validatecommand=vcmd,
         )
         self.txt_nisn.place(relx=0.125, y=60, relwidth=0.18)
 
@@ -406,9 +410,11 @@ class StudentClass:
 
     def get_data(self, ev):
         self.txt_nisn.config(state="readonly")
-        r = self.StudentTable.focus()
-        content = self.StudentTable.item(r)
-        row = content["values"]
+        selected = self.StudentTable.selection()
+        if not selected:
+            return
+        item_id = selected[0]
+        row = self.StudentTable.item(item_id, "values")
         if not row:
             return
         self.var_nisn.set(row[0])
@@ -428,8 +434,10 @@ class StudentClass:
         con = sqlite3.connect(database="rapot_siswa.db")
         cur = con.cursor()
         try:
-            if self.var_nisn.get() == "":
-                messagebox.showerror("Error", "NISN harus diisi", parent=self.root)
+            if self.var_nisn.get() == "" or self.var_name.get().strip() == "":
+                messagebox.showerror(
+                    "Error", "NISN dan Nama harus diisi", parent=self.root
+                )
             else:
                 cur.execute(
                     """SELECT
@@ -487,8 +495,10 @@ class StudentClass:
         con = sqlite3.connect(database="rapot_siswa.db")
         cur = con.cursor()
         try:
-            if self.var_nisn.get() == "":
-                messagebox.showerror("Error", "NISN harus diisi", parent=self.root)
+            if self.var_nisn.get() == "" or self.var_name.get().strip() == "":
+                messagebox.showerror(
+                    "Error", "NISN dan Nama harus diisi", parent=self.root
+                )
             else:
                 cur.execute(
                     """SELECT
@@ -608,6 +618,9 @@ class StudentClass:
 
         except Exception as ex:
             messagebox.showerror("Error", f"error dikarenakan {str(ex)}")
+
+    def validate_numeric(self, value):
+        return value.isdigit() or value == ""
 
 
 if __name__ == "__main__":
