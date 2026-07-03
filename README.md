@@ -35,3 +35,12 @@
 ### Menu Rapot Siswa
 
 - Menampilkan seluruh nilai berdasarkan siswa yang dipilih.
+
+## 4. Alur Penggunaan Aplikasi
+
+1. Tambahkan Guru
+2. Tambahkan Rombel
+3. Tambahkan Siswa
+4. Tambahkan Pelajaran
+5. Input Rapot Siswa
+6. Lihat Rapot Siswa
