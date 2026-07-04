@@ -108,7 +108,9 @@ class ReportClass:
             style="Custom.TCombobox",
             state="readonly",
         )
-        self.txt_studyGroup.place(relx=0.200, y=self.title_height + 18, relwidth=0.20)
+        self.txt_studyGroup.place(
+            relx=0.200, y=self.title_height + 18, relwidth=0.20, height=28
+        )
         self.txt_studyGroup.set("Pilih")
         self.txt_studyGroup.bind(
             "<<ComboboxSelected>>", lambda event: self.fetch_student()
@@ -122,7 +124,9 @@ class ReportClass:
             style="Custom.TCombobox",
             state="readonly",
         )
-        self.txt_student.place(relx=0.200, y=self.title_height + 52, relwidth=0.20)
+        self.txt_student.place(
+            relx=0.200, y=self.title_height + 52, relwidth=0.20, height=28
+        )
         self.txt_student.set("Pilih")
         self.txt_student.bind("<<ComboboxSelected>>", self.on_student_selected)
 
@@ -131,7 +135,7 @@ class ReportClass:
             textvariable=self.var_nisn,
             font=fonts.get_font(self.root, 11),
             state="readonly",
-        ).place(relx=0.200, y=self.title_height + 86, relwidth=0.20)
+        ).place(relx=0.200, y=self.title_height + 86, relwidth=0.20, height=28)
 
         # ----- Header tabel -----
 
