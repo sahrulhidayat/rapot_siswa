@@ -5,9 +5,9 @@ import sqlite3
 import fonts
 from study_group import StudyGroupClass
 from study import StudyClass
-from student import StudentClass
+from models.student import StudentClass
 from result import ResultClass
-from teacher import TeacherClass
+from models.teacher import TeacherClass
 from report import ReportClass
 
 

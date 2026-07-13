@@ -1,12 +1,13 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 import sqlite3
-import fonts
+import fonts as fonts
+from models.user import User
 
 
-class TeacherClass:
+class TeacherClass(User):
     def __init__(self, root):
-        self.root = root
+        super().__init__(root)
         self.root.title("Sistem Rapot Siswa")
         self.root.geometry("1200x480+80+170")
         self.root.resizable(True, True)

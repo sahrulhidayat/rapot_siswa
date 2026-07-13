@@ -1,5 +1,3 @@
-import sys
-import tkinter as tk
 import tkinter.font as tkfont
 
 
