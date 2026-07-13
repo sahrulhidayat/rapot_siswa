@@ -2,13 +2,13 @@ import tkinter as tk
 from PIL import Image, ImageTk
 from tkinter import ttk, messagebox
 import sqlite3
-import fonts
-from study_group import StudyGroupClass
-from study import StudyClass
+import utils.fonts as fonts
+from pages.study_group import StudyGroupClass
+from pages.study import StudyClass
 from models.student import StudentClass
-from result import ResultClass
+from pages.result import ResultClass
 from models.teacher import TeacherClass
-from report import ReportClass
+from pages.report import ReportClass
 
 
 class StudentReport:

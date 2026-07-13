@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
-import fonts
+import utils.fonts as fonts
 import sqlite3
 
 
