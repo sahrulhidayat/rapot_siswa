@@ -4,7 +4,7 @@ import sqlite3
 import utils.fonts as fonts
 
 try:
-    from .user import User
+    from ..models.user import User
 except ImportError:
     from user import User
 
