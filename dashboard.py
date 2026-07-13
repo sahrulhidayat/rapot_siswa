@@ -1,6 +1,6 @@
 import tkinter as tk
 from PIL import Image, ImageTk
-from tkinter import ttk, messagebox
+from tkinter import messagebox
 import sqlite3
 import utils.fonts as fonts
 from pages.study_group import StudyGroupClass

@@ -1,12 +1,8 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 import sqlite3
+from models.user import User
 import utils.fonts as fonts
-
-try:
-    from ..models.user import User
-except ImportError:
-    from user import User
 
 
 class TeacherClass(User):
