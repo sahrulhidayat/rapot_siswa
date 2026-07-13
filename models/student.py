@@ -2,12 +2,18 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 import sqlite3
 import utils.fonts as fonts
-from user import User
+
+try:
+    from .user import User
+except ImportError:
+    from user import User
 
 
 class StudentClass(User):
     def __init__(self, root):
         super().__init__(root)
+        self.set_table_name("student")
+        self._record_key = "nisn"
         self.root.title("Sistem Rapot Siswa")
         self.root.geometry("1200x480+80+170")
         self.root.resizable(True, True)
@@ -344,6 +350,19 @@ class StudentClass(User):
         self.show()
 
     # ========================================================
+    def get_role_label(self):
+        return "Siswa"
+
+    def build_profile(self):
+        return {
+            "id": self.get_identifier(),
+            "nama": self.get_name(),
+            "role": self.get_role_label(),
+        }
+
+    def describe(self):
+        return f"{self.get_role_label()} {self.get_name()} ({self.get_identifier()})"
+
     def clear(self):
         self.show()
         self.var_nisn.set("")
@@ -363,6 +382,9 @@ class StudentClass(User):
         self.txt_studyGroup.set("Pilih")
 
     def delete(self):
+        self.set_name(self.var_name.get())
+        self.set_identifier(self.var_nisn.get())
+
         con = sqlite3.connect(database="rapot_siswa.db")
         cur = con.cursor()
         try:
@@ -410,6 +432,8 @@ class StudentClass(User):
             messagebox.showerror("Error", f"error dikarenakan {str(ex)}")
 
     def get_data(self, ev):
+        self.set_name(self.var_name.get())
+        self.set_identifier(self.var_nisn.get())
         self.txt_nisn.config(state="readonly")
         selected = self.StudentTable.selection()
         if not selected:
@@ -432,6 +456,9 @@ class StudentClass(User):
         self.var_mother.set(row[10])
 
     def add(self):
+        self.set_name(self.var_name.get())
+        self.set_identifier(self.var_nisn.get())
+
         con = sqlite3.connect(database="rapot_siswa.db")
         cur = con.cursor()
         try:
@@ -493,6 +520,9 @@ class StudentClass(User):
             messagebox.showerror("Error", f"error dikarenakan {str(ex)}")
 
     def update(self):
+        self.set_name(self.var_name.get())
+        self.set_identifier(self.var_nisn.get())
+
         con = sqlite3.connect(database="rapot_siswa.db")
         cur = con.cursor()
         try:
