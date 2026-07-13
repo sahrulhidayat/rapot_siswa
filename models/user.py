@@ -6,7 +6,7 @@ class User(ABC):
         self._root = root
         self._name = ""
         self._identifier = ""
-        self.__table_name = ""
+        self._table_name = ""
 
     @property
     def root(self):
@@ -32,29 +32,13 @@ class User(ABC):
     def identifier(self, value):
         self._identifier = str(value).strip()
 
-    def get_root(self):
-        return self._root
+    @property
+    def table_name(self):
+        return self._table_name
 
-    def set_root(self, value):
-        self._root = value
-
-    def get_name(self):
-        return self._name
-
-    def set_name(self, value):
-        self._name = str(value).strip()
-
-    def get_identifier(self):
-        return self._identifier
-
-    def set_identifier(self, value):
-        self._identifier = str(value).strip()
-
-    def get_table_name(self):
-        return self.__table_name
-
-    def set_table_name(self, value):
-        self.__table_name = str(value).strip()
+    @table_name.setter
+    def table_name(self, value):
+        self._table_name = str(value).strip()
 
     @abstractmethod
     def get_role_label(self):

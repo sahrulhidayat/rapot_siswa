@@ -8,7 +8,7 @@ import utils.fonts as fonts
 class StudentClass(User):
     def __init__(self, root):
         super().__init__(root)
-        self.set_table_name("student")
+        self.table_name = "student"
         self._record_key = "nisn"
         self.root.title("Sistem Rapot Siswa")
         self.root.geometry("1200x480+80+170")
@@ -351,16 +351,18 @@ class StudentClass(User):
 
     def build_profile(self):
         return {
-            "id": self.get_identifier(),
-            "nama": self.get_name(),
+            "id": self.identifier,
+            "nama": self.name,
             "role": self.get_role_label(),
         }
 
     def describe(self):
-        return f"{self.get_role_label()} {self.get_name()} ({self.get_identifier()})"
+        return f"{self.get_role_label()} {self.name} ({self.identifier})"
 
     def clear(self):
         self.show()
+        self.identifier = ""
+        self.name = ""
         self.var_nisn.set("")
         self.var_name.set("")
         self.var_gender.set("")
@@ -378,8 +380,8 @@ class StudentClass(User):
         self.txt_studyGroup.set("Pilih")
 
     def delete(self):
-        self.set_name(self.var_name.get())
-        self.set_identifier(self.var_nisn.get())
+        self.name = self.var_name.get()
+        self.identifier = self.var_nisn.get()
 
         con = sqlite3.connect(database="rapot_siswa.db")
         cur = con.cursor()
@@ -390,12 +392,12 @@ class StudentClass(User):
                 )
             else:
                 cur.execute(
-                    """SELECT
+                    f"""SELECT
                         *
                         FROM
-                        student
+                        {self.table_name}
                         WHERE
-                        nisn = ?""",
+                        {self._record_key} = ?""",
                     (self.var_nisn.get(),),
                 )
                 row = cur.fetchone()
@@ -413,9 +415,9 @@ class StudentClass(User):
                     )
                     if op is True:
                         cur.execute(
-                            """DELETE FROM student
+                            f"""DELETE FROM {self.table_name}
                                 WHERE
-                                nisn = ?""",
+                                {self._record_key} = ?""",
                             (self.var_nisn.get(),),
                         )
                         con.commit()
@@ -428,8 +430,6 @@ class StudentClass(User):
             messagebox.showerror("Error", f"error dikarenakan {str(ex)}")
 
     def get_data(self, ev):
-        self.set_name(self.var_name.get())
-        self.set_identifier(self.var_nisn.get())
         self.txt_nisn.config(state="readonly")
         selected = self.StudentTable.selection()
         if not selected:
@@ -440,6 +440,8 @@ class StudentClass(User):
             return
         self.var_nisn.set(row[0])
         self.var_name.set(row[1])
+        self.identifier = row[0]
+        self.name = row[1]
         self.var_gender.set(row[2])
         self.var_religion.set(row[3])
         self.var_contact.set(row[4])
@@ -452,8 +454,8 @@ class StudentClass(User):
         self.var_mother.set(row[10])
 
     def add(self):
-        self.set_name(self.var_name.get())
-        self.set_identifier(self.var_nisn.get())
+        self.name = self.var_name.get()
+        self.identifier = self.var_nisn.get()
 
         con = sqlite3.connect(database="rapot_siswa.db")
         cur = con.cursor()
@@ -464,12 +466,12 @@ class StudentClass(User):
                 )
             else:
                 cur.execute(
-                    """SELECT
+                    f"""SELECT
                         *
                         FROM
-                        student
+                        {self.table_name}
                         WHERE
-                        nisn = ?""",
+                        {self._record_key} = ?""",
                     (self.var_nisn.get(),),
                 )
                 row = cur.fetchone()
@@ -477,8 +479,8 @@ class StudentClass(User):
                     messagebox.showerror("Error", "NISN sudah ada", parent=self.root)
                 else:
                     cur.execute(
-                        """INSERT INTO
-                            student (
+                        f"""INSERT INTO
+                            {self.table_name} (
                             nisn,
                             name,
                             gender,
@@ -516,8 +518,8 @@ class StudentClass(User):
             messagebox.showerror("Error", f"error dikarenakan {str(ex)}")
 
     def update(self):
-        self.set_name(self.var_name.get())
-        self.set_identifier(self.var_nisn.get())
+        self.name = self.var_name.get()
+        self.identifier = self.var_nisn.get()
 
         con = sqlite3.connect(database="rapot_siswa.db")
         cur = con.cursor()
@@ -528,12 +530,12 @@ class StudentClass(User):
                 )
             else:
                 cur.execute(
-                    """SELECT
+                    f"""SELECT
                         *
                         FROM
-                        student
+                        {self.table_name}
                         WHERE
-                        nisn = ?""",
+                        {self._record_key} = ?""",
                     (self.var_nisn.get(),),
                 )
                 row = cur.fetchone()
@@ -545,7 +547,7 @@ class StudentClass(User):
                     )
                 else:
                     cur.execute(
-                        """UPDATE student
+                        f"""UPDATE {self.table_name}
                             SET
                             name = ?,
                             gender = ?,
@@ -558,7 +560,7 @@ class StudentClass(User):
                             father = ?,
                             mother = ?
                             WHERE
-                            nisn = ?""",
+                            {self._record_key} = ?""",
                         (
                             self.var_name.get(),
                             self.var_gender.get(),
@@ -585,10 +587,10 @@ class StudentClass(User):
         con = sqlite3.connect(database="rapot_siswa.db")
         cur = con.cursor()
         try:
-            cur.execute("""SELECT
+            cur.execute(f"""SELECT
                 *
                 FROM
-                student""")
+                {self.table_name}""")
             rows = cur.fetchall()
             self.StudentTable.delete(*self.StudentTable.get_children())
             for row in rows:
@@ -627,10 +629,10 @@ class StudentClass(User):
                 return
 
             cur.execute(
-                """SELECT
+                f"""SELECT
                     *
                     FROM
-                    student
+                    {self.table_name}
                     WHERE
                     name LIKE ?""",
                 (f"%{search_text}%",),

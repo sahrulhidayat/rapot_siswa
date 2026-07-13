@@ -8,7 +8,7 @@ import utils.fonts as fonts
 class TeacherClass(User):
     def __init__(self, root):
         super().__init__(root)
-        self.set_table_name("teacher")
+        self.table_name = "teacher"
         self._record_key = "teacher_id"
         self.root.title("Sistem Rapot Siswa")
         self.root.geometry("1200x480+80+170")
@@ -236,13 +236,13 @@ class TeacherClass(User):
 
     def build_profile(self):
         return {
-            "id": self.get_identifier(),
-            "nama": self.get_name(),
+            "id": self.identifier,
+            "nama": self.name,
             "role": self.get_role_label(),
         }
 
     def describe(self):
-        return f"{self.get_role_label()} {self.get_name()} ({self.get_identifier()})"
+        return f"{self.get_role_label()} {self.name} ({self.identifier})"
 
     def clear(self):
         self.show()
@@ -256,8 +256,8 @@ class TeacherClass(User):
         self.txt_nip.config(state=tk.NORMAL)
 
     def delete(self):
-        self.set_name(self.var_name.get())
-        self.set_identifier(self.var_teacherId.get())
+        self.name = self.var_name.get()
+        self.identifier = self.var_teacherId.get()
 
         con = sqlite3.connect(database="rapot_siswa.db")
         cur = con.cursor()
@@ -266,13 +266,13 @@ class TeacherClass(User):
                 messagebox.showerror("Error", "Pilih salah satu guru", parent=self.root)
             else:
                 cur.execute(
-                    """SELECT
+                    f"""SELECT
                         *
                         FROM
-                        teacher
+                        {self.table_name}
                         WHERE
-                        teacher_id = ?""",
-                    (self.var_teacherId.get(),),
+                        {self._record_key} = ?""",
+                    (self.identifier,),
                 )
                 row = cur.fetchone()
                 if row is None:
@@ -289,10 +289,10 @@ class TeacherClass(User):
                     )
                     if op is True:
                         cur.execute(
-                            """DELETE FROM teacher
+                            f"""DELETE FROM teacher
                                 WHERE
-                                teacher_id = ?""",
-                            (self.var_teacherId.get(),),
+                                {self._record_key} = ?""",
+                            (self.identifier,),
                         )
                         con.commit()
                         messagebox.showinfo(
@@ -304,8 +304,8 @@ class TeacherClass(User):
             messagebox.showerror("Error", f"error dikarenakan {str(ex)}")
 
     def get_data(self, ev):
-        self.set_name(self.var_name.get())
-        self.set_identifier(self.var_teacherId.get())
+        self.name = self.var_name.get()
+        self.identifier = self.var_teacherId.get()
         self.txt_nip.config(state="readonly")
         selected = self.TeacherTable.selection()
         if not selected:
@@ -322,8 +322,8 @@ class TeacherClass(User):
         self.var_contact.set(row[5])
 
     def add(self):
-        self.set_name(self.var_name.get())
-        self.set_identifier(self.var_teacherId.get())
+        self.name = self.var_name.get()
+        self.identifier = self.var_teacherId.get()
 
         con = sqlite3.connect(database="rapot_siswa.db")
         cur = con.cursor()
@@ -338,10 +338,10 @@ class TeacherClass(User):
                 )
             else:
                 cur.execute(
-                    """SELECT
+                    f"""SELECT
                         *
                         FROM
-                        teacher
+                        {self.table_name}
                         WHERE
                         LOWER(name) = LOWER(?) OR nip = ?""",
                     (name, nip),
@@ -364,8 +364,8 @@ class TeacherClass(User):
                     nip_str = str(nip)
                     contact_str = str(self.var_contact.get())
                     cur.execute(
-                        """INSERT INTO
-                            teacher (             
+                        f"""INSERT INTO
+                            {self.table_name} (             
                             name,
                             nip,
                             gender,
@@ -391,8 +391,8 @@ class TeacherClass(User):
             messagebox.showerror("Error", f"error dikarenakan {str(ex)}")
 
     def update(self):
-        self.set_name(self.var_name.get())
-        self.set_identifier(self.var_teacherId.get())
+        self.name = self.var_name.get()
+        self.identifier = self.var_teacherId.get()
 
         con = sqlite3.connect(database="rapot_siswa.db")
         cur = con.cursor()
@@ -407,12 +407,12 @@ class TeacherClass(User):
                 )
             else:
                 cur.execute(
-                    """SELECT
+                    f"""SELECT
                         *
                         FROM
-                        teacher
+                        {self.table_name}
                         WHERE
-                        teacher_id = ?""",
+                        {self._record_key} = ?""",
                     (self.var_teacherId.get(),),
                 )
                 row = cur.fetchone()
@@ -424,13 +424,13 @@ class TeacherClass(User):
                     )
                 else:
                     cur.execute(
-                        """SELECT
+                        f"""SELECT
                             *
                             FROM
-                            teacher
+                            {self.table_name}
                             WHERE
                             (LOWER(name) = LOWER(?) OR nip = ?)
-                            AND teacher_id != ?""",
+                            AND {self._record_key} != ?""",
                         (name, nip, self.var_teacherId.get()),
                     )
                     duplicate = cur.fetchone()
@@ -452,7 +452,7 @@ class TeacherClass(User):
                         nip_str = str(nip)
                         contact_str = str(self.var_contact.get())
                         cur.execute(
-                            """UPDATE teacher
+                            f"""UPDATE {self.table_name}
                                 SET
                                 name = ?,
                                 nip = ?,
@@ -460,7 +460,7 @@ class TeacherClass(User):
                                 religion = ?,
                                 contact = ?
                                 WHERE
-                                teacher_id = ?""",
+                                {self._record_key} = ?""",
                             (
                                 name,
                                 nip_str,
@@ -482,10 +482,10 @@ class TeacherClass(User):
         con = sqlite3.connect(database="rapot_siswa.db")
         cur = con.cursor()
         try:
-            cur.execute("""SELECT
+            cur.execute(f"""SELECT
                 *
                 FROM
-                teacher""")
+                {self.table_name}""")
             rows = cur.fetchall()
             self.TeacherTable.delete(*self.TeacherTable.get_children())
             for row in rows:
@@ -508,10 +508,10 @@ class TeacherClass(User):
                 return
 
             cur.execute(
-                """SELECT
+                f"""SELECT
                     *
                     FROM
-                    teacher
+                    {self.table_name}
                     WHERE
                     name LIKE ?""",
                 (f"%{search_text}%",),
