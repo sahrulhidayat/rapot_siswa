@@ -63,7 +63,7 @@ class StudyGroupClass:
             font=fonts.get_font(self.root, 13),
             bg="lightyellow",
         )
-        self.txt_groupName.place(relx=0.125, y=60, relwidth=0.18)
+        self.txt_groupName.place(relx=0.125, y=60, relwidth=0.18, height=28)
 
         self.txt_class = tk.Entry(
             self.root,
@@ -71,7 +71,7 @@ class StudyGroupClass:
             font=fonts.get_font(self.root, 13),
             bg="lightyellow",
         )
-        self.txt_class.place(relx=0.125, y=100, relwidth=0.18)
+        self.txt_class.place(relx=0.125, y=100, relwidth=0.18, height=28)
 
         self.txt_guardianTeacher = ttk.Combobox(
             self.root,
@@ -81,7 +81,7 @@ class StudyGroupClass:
             state="readonly",
             justify=tk.CENTER,
         )
-        self.txt_guardianTeacher.place(relx=0.125, y=140, relwidth=0.18)
+        self.txt_guardianTeacher.place(relx=0.125, y=140, relwidth=0.18, height=28)
         self.txt_guardianTeacher.set("Pilih")
 
         # ==== Buttons ====
@@ -139,7 +139,7 @@ class StudyGroupClass:
             textvariable=self.var_search,
             font=fonts.get_font(self.root, 13),
             bg="lightyellow",
-        ).place(relx=0.70, y=60, relwidth=0.18)
+        ).place(relx=0.70, y=60, relwidth=0.18, height=28)
 
         btn_search = tk.Button(
             self.root,
@@ -149,7 +149,7 @@ class StudyGroupClass:
             fg="white",
             cursor="hand2",
             command=self.search,
-        ).place(relx=0.89, y=60, relwidth=0.1, height=26)
+        ).place(relx=0.89, y=60, relwidth=0.1, height=28)
 
         # ==== Content ====
         self.C_Frame = tk.Frame(self.root, bd=2, relief=tk.RIDGE)

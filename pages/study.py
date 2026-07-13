@@ -73,7 +73,7 @@ class StudyClass:
             font=fonts.get_font(self.root, 13),
             bg="lightyellow",
         )
-        self.txt_studyName.place(relx=0.125, y=60, relwidth=0.18)
+        self.txt_studyName.place(relx=0.125, y=60, relwidth=0.18, height=28)
 
         self.txt_studyGroup = ttk.Combobox(
             self.root,
@@ -83,7 +83,7 @@ class StudyClass:
             state="readonly",
             justify=tk.CENTER,
         )
-        self.txt_studyGroup.place(relx=0.125, y=100, relwidth=0.18)
+        self.txt_studyGroup.place(relx=0.125, y=100, relwidth=0.18, height=28)
         self.txt_studyGroup.set("Pilih")
 
         self.txt_teacher = ttk.Combobox(
@@ -94,7 +94,7 @@ class StudyClass:
             state="readonly",
             justify=tk.CENTER,
         )
-        self.txt_teacher.place(relx=0.125, y=140, relwidth=0.18)
+        self.txt_teacher.place(relx=0.125, y=140, relwidth=0.18, height=28)
         self.txt_teacher.set("Pilih")
 
         self.txt_description = tk.Text(
@@ -159,7 +159,7 @@ class StudyClass:
             textvariable=self.var_search,
             font=fonts.get_font(self.root, 13),
             bg="lightyellow",
-        ).place(relx=0.73, y=60, relwidth=0.18)
+        ).place(relx=0.73, y=60, relwidth=0.18, height=28)
 
         btn_search = tk.Button(
             self.root,

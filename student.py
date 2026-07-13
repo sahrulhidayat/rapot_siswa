@@ -94,14 +94,14 @@ class StudentClass(User):
             validate="key",
             validatecommand=vcmd,
         )
-        self.txt_nisn.place(relx=0.125, y=60, relwidth=0.18)
+        self.txt_nisn.place(relx=0.125, y=60, relwidth=0.18, height=28)
 
         txt_name = tk.Entry(
             self.root,
             textvariable=self.var_name,
             font=fonts.get_font(self.root, 11),
             bg="lightyellow",
-        ).place(relx=0.125, y=100, relwidth=0.18)
+        ).place(relx=0.125, y=100, relwidth=0.18, height=28)
 
         self.txt_gender = ttk.Combobox(
             self.root,
@@ -111,7 +111,7 @@ class StudentClass(User):
             state="readonly",
             justify=tk.CENTER,
         )
-        self.txt_gender.place(relx=0.125, y=140, relwidth=0.18, height=24)
+        self.txt_gender.place(relx=0.125, y=140, relwidth=0.18, height=28)
         self.txt_gender.current(0)
 
         txt_religion = tk.Entry(
@@ -119,14 +119,14 @@ class StudentClass(User):
             textvariable=self.var_religion,
             font=fonts.get_font(self.root, 11),
             bg="lightyellow",
-        ).place(relx=0.125, y=180, relwidth=0.18)
+        ).place(relx=0.125, y=180, relwidth=0.18, height=28)
 
         txt_contact = tk.Entry(
             self.root,
             textvariable=self.var_contact,
             font=fonts.get_font(self.root, 11),
             bg="lightyellow",
-        ).place(relx=0.125, y=220, relwidth=0.18)
+        ).place(relx=0.125, y=220, relwidth=0.18, height=28)
 
         # -------- Column 2 --------
         lbl_studyGroup = tk.Label(
@@ -177,7 +177,7 @@ class StudentClass(User):
             state="readonly",
             justify=tk.CENTER,
         )
-        self.txt_studyGroup.place(relx=0.411, y=60, relwidth=0.18, height=24)
+        self.txt_studyGroup.place(relx=0.411, y=60, relwidth=0.18, height=28)
         self.txt_studyGroup.set("Pilih")
 
         txt_birthPlace = tk.Entry(
@@ -185,28 +185,28 @@ class StudentClass(User):
             textvariable=self.var_birthPlace,
             font=fonts.get_font(self.root, 11),
             bg="lightyellow",
-        ).place(relx=0.411, y=100, relwidth=0.18)
+        ).place(relx=0.411, y=100, relwidth=0.18, height=28)
 
         txt_birthDate = tk.Entry(
             self.root,
             textvariable=self.var_birthDate,
             font=fonts.get_font(self.root, 11),
             bg="lightyellow",
-        ).place(relx=0.411, y=140, relwidth=0.18)
+        ).place(relx=0.411, y=140, relwidth=0.18, height=28)
 
         txt_father = tk.Entry(
             self.root,
             textvariable=self.var_father,
             font=fonts.get_font(self.root, 11),
             bg="lightyellow",
-        ).place(relx=0.411, y=180, relwidth=0.18)
+        ).place(relx=0.411, y=180, relwidth=0.18, height=28)
 
         txt_mother = tk.Entry(
             self.root,
             textvariable=self.var_mother,
             font=fonts.get_font(self.root, 11),
             bg="lightyellow",
-        ).place(relx=0.411, y=220, relwidth=0.18)
+        ).place(relx=0.411, y=220, relwidth=0.18, height=28)
 
         # --------- Text Address ---------
 
@@ -272,7 +272,7 @@ class StudentClass(User):
             textvariable=self.var_search,
             font=fonts.get_font(self.root, 11),
             bg="lightyellow",
-        ).place(relx=0.725, y=60, relwidth=0.18)
+        ).place(relx=0.725, y=60, relwidth=0.18, height=28)
 
         btn_search = tk.Button(
             self.root,
@@ -282,7 +282,7 @@ class StudentClass(User):
             fg="white",
             cursor="hand2",
             command=self.search,
-        ).place(relx=0.92, y=60, relwidth=0.07, height=24)
+        ).place(relx=0.92, y=60, relwidth=0.07, height=28)
 
         # ==== Content ====
         self.C_Frame = tk.Frame(self.root, bd=2, relief=tk.RIDGE)

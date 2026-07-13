@@ -81,7 +81,7 @@ class TeacherClass(User):
             font=fonts.get_font(self.root, 11),
             bg="lightyellow",
         )
-        self.txt_name.place(relx=0.125, y=60, relwidth=0.18)
+        self.txt_name.place(relx=0.125, y=60, relwidth=0.18, height=28)
 
         self.txt_nip = tk.Entry(
             self.root,
@@ -89,7 +89,7 @@ class TeacherClass(User):
             font=fonts.get_font(self.root, 11),
             bg="lightyellow",
         )
-        self.txt_nip.place(relx=0.125, y=100, relwidth=0.18)
+        self.txt_nip.place(relx=0.125, y=100, relwidth=0.18, height=28)
 
         self.txt_gender = ttk.Combobox(
             self.root,
@@ -99,7 +99,7 @@ class TeacherClass(User):
             state="readonly",
             justify=tk.CENTER,
         )
-        self.txt_gender.place(relx=0.125, y=140, relwidth=0.18, height=24)
+        self.txt_gender.place(relx=0.125, y=140, relwidth=0.18, height=28)
         self.txt_gender.current(0)
 
         txt_religion = tk.Entry(
@@ -107,7 +107,7 @@ class TeacherClass(User):
             textvariable=self.var_religion,
             font=fonts.get_font(self.root, 11),
             bg="lightyellow",
-        ).place(relx=0.125, y=180, relwidth=0.18)
+        ).place(relx=0.125, y=180, relwidth=0.18, height=28)
 
         self.txt_contact = tk.Entry(
             self.root,
@@ -115,7 +115,7 @@ class TeacherClass(User):
             font=fonts.get_font(self.root, 11),
             bg="lightyellow",
         )
-        self.txt_contact.place(relx=0.125, y=220, relwidth=0.18)
+        self.txt_contact.place(relx=0.125, y=220, relwidth=0.18, height=28)
 
         # ==== Buttons ====
         self.btn_add = tk.Button(
@@ -173,7 +173,7 @@ class TeacherClass(User):
             textvariable=self.var_search,
             font=fonts.get_font(self.root, 11),
             bg="lightyellow",
-        ).place(relx=0.725, y=60, relwidth=0.18)
+        ).place(relx=0.725, y=60, relwidth=0.18, height=28)
 
         btn_search = tk.Button(
             self.root,
@@ -183,7 +183,7 @@ class TeacherClass(User):
             fg="white",
             cursor="hand2",
             command=self.search,
-        ).place(relx=0.92, y=60, relwidth=0.07, height=24)
+        ).place(relx=0.92, y=60, relwidth=0.07, height=28)
 
         # ==== Content ====
         self.C_Frame = tk.Frame(self.root, bd=2, relief=tk.RIDGE)

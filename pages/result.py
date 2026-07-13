@@ -46,67 +46,67 @@ class ResultClass:
         lbl_select = tk.Label(
             self.root,
             text="Pilih Siswa",
-            font=fonts.get_font(self.root, 14),
+            font=fonts.get_font(self.root, 11),
             bg="white",
-        ).place(relx=0.01, y=100)
+        ).place(relx=0.01, y=60)
 
         lbl_name = tk.Label(
             self.root,
             text="NISN",
-            font=fonts.get_font(self.root, 14),
+            font=fonts.get_font(self.root, 11),
             bg="white",
-        ).place(relx=0.01, y=160)
+        ).place(relx=0.01, y=100)
 
         lbl_study = tk.Label(
             self.root,
             text="Pelajaran",
-            font=fonts.get_font(self.root, 14),
+            font=fonts.get_font(self.root, 11),
             bg="white",
-        ).place(relx=0.01, y=220)
+        ).place(relx=0.01, y=140)
 
-        lbl_criteria = tk.Label(
+        lbl_kkm = tk.Label(
             self.root,
             text="KKM",
-            font=fonts.get_font(self.root, 14),
+            font=fonts.get_font(self.root, 11),
             bg="white",
-        ).place(relx=0.01, y=280)
+        ).place(relx=0.01, y=180)
 
         lbl_mark = tk.Label(
             self.root,
             text="Nilai",
-            font=fonts.get_font(self.root, 14),
+            font=fonts.get_font(self.root, 11),
             bg="white",
-        ).place(relx=0.01, y=340)
+        ).place(relx=0.01, y=220)
 
         self.txt_student = ttk.Combobox(
             self.root,
             textvariable=self.var_student,
             values=self.student_list,
-            font=fonts.get_font(self.root, 14),
+            font=fonts.get_font(self.root, 11),
             style="Custom.TCombobox",
             state="readonly",
         )
-        self.txt_student.place(relx=0.150, y=100, relwidth=0.28, height=28)
+        self.txt_student.place(relx=0.125, y=60, relwidth=0.18, height=28)
         self.txt_student.set("Pilih")
         self.txt_student.bind("<<ComboboxSelected>>", self.on_student_selected)
 
         txt_nisn = tk.Entry(
             self.root,
             textvariable=self.var_nisn,
-            font=fonts.get_font(self.root, 14),
+            font=fonts.get_font(self.root, 11),
             bg="lightyellow",
             state="readonly",
-        ).place(relx=0.15, y=160, relwidth=0.28)
+        ).place(relx=0.125, y=100, relwidth=0.18, height=28)
 
         self.txt_study = ttk.Combobox(
             self.root,
             textvariable=self.var_study,
             values=self.study_list,
-            font=fonts.get_font(self.root, 14),
+            font=fonts.get_font(self.root, 11),
             style="Custom.TCombobox",
             state="readonly",
         )
-        self.txt_study.place(relx=0.150, y=220, relwidth=0.28, height=28)
+        self.txt_study.place(relx=0.125, y=140, relwidth=0.18, height=28)
         self.txt_study.set("Pilih")
 
         vcmd = (self.root.register(self.validate_numeric), "%P")
@@ -114,24 +114,24 @@ class ResultClass:
         txt_kkm = tk.Entry(
             self.root,
             textvariable=self.var_kkm,
-            font=fonts.get_font(self.root, 14),
+            font=fonts.get_font(self.root, 11),
             bg="lightyellow",
             justify=tk.CENTER,
             validate="key",
             validatecommand=vcmd,
         )
-        txt_kkm.place(relx=0.15, y=280, relwidth=0.14)
+        txt_kkm.place(relx=0.125, y=180, relwidth=0.09, height=28)
 
         txt_mark = tk.Entry(
             self.root,
             textvariable=self.var_mark,
-            font=fonts.get_font(self.root, 14),
+            font=fonts.get_font(self.root, 11),
             bg="lightyellow",
             justify=tk.CENTER,
             validate="key",
             validatecommand=vcmd,
         )
-        txt_mark.place(relx=0.15, y=340, relwidth=0.14)
+        txt_mark.place(relx=0.125, y=220, relwidth=0.09, height=28)
 
         # ====== Button ======
         btn_submit = tk.Button(
