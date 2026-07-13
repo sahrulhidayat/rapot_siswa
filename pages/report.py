@@ -1,5 +1,4 @@
 import tkinter as tk
-from PIL import Image, ImageTk
 from tkinter import ttk, messagebox
 import utils.fonts as fonts
 import sqlite3
