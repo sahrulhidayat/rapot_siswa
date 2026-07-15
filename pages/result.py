@@ -31,12 +31,14 @@ class ResultClass:
         self.var_student = tk.StringVar()
         self.var_nisn = tk.StringVar()
         self.var_study = tk.StringVar()
+        self.var_studyGroup = tk.StringVar()
         self.var_kkm = tk.StringVar()
         self.var_mark = tk.StringVar()
 
         self.nisn_list = []
         self.student_list = []
         self.study_list = []
+        self.studyGroup_list = []
         self.fetch_students()
         self.fetch_study()
 
@@ -199,6 +201,7 @@ class ResultClass:
                 for row in rows:
                     self.nisn_list.append(row[0])
                     self.student_list.append(row[1])
+                    self.studyGroup_list.append(row[6])
 
         except Exception as ex:
             messagebox.showerror("Error", f"error dikarenakan {str(ex)}")
@@ -207,10 +210,13 @@ class ResultClass:
         con = sqlite3.connect(database="rapot_siswa.db")
         cur = con.cursor()
         try:
-            cur.execute("""SELECT
+            cur.execute(
+                """SELECT
                 *
                 FROM
-                study""")
+                study WHERE study_group = ?""",
+                (self.var_studyGroup.get(),),
+            )
             rows = cur.fetchall()
             if len(rows) > 0:
                 for row in rows:
@@ -225,6 +231,12 @@ class ResultClass:
             return
 
         self.var_nisn.set(self.nisn_list[selected_index])
+        self.var_studyGroup.set(self.studyGroup_list[selected_index])
+
+        self.study_list.clear()
+        self.fetch_study()
+        self.txt_study["values"] = self.study_list
+        self.txt_study.set("Pilih")
 
     def submit(self):
         con = sqlite3.connect(database="rapot_siswa.db")
