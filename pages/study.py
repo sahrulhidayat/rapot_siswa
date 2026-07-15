@@ -297,7 +297,11 @@ class StudyClass:
                     (self.var_study.get(),),
                 )
                 row = cur.fetchone()
-                if row is not None:
+                if (
+                    row
+                    and row[1] == self.var_study.get()
+                    and row[2] == self.var_studyGroup.get()
+                ):
                     messagebox.showerror(
                         "Error", "Nama Pelajaran sudah ada", parent=self.root
                     )
